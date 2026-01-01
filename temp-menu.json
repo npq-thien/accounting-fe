@@ -1,0 +1,57 @@
+{
+  "Home": {
+    "title": "Trang chủ",
+    "path": "/",
+    "icon": "home",
+    "roles": ["admin", "user"]
+  },
+
+  "OrderManagement": {
+    "title": "Quản lý đơn hàng",
+    "path": "/order-management",
+    "icon": "order",
+    "roles": ["admin", "user"],
+    "children": [
+      {
+        "title": "Đơn mua hàng",
+        "path": "/order-management/order-buy",
+        "icon": "order",
+        "roles": ["admin", "user"]
+      },
+      {
+        "title": "Đơn bán hàng",
+        "path": "/order-management/order-sell",
+        "icon": "order",
+        "roles": ["admin", "user"]
+      }
+    ]
+  },
+
+  "StaffManagement": {
+    "title": "Quản lý nhân sự",
+    "path": "/staff-management",
+    "icon": "people",
+    "roles": ["admin"],
+    "children": [
+      {
+        "title": "Danh sách nhân sự",
+        "path": "/staff-management/staff-list",
+        "icon": "people",
+        "roles": ["admin"]
+      },
+      {
+        "title": "Thêm nhân sự",
+        "path": "/staff-management/staff-add",
+        "icon": "people",
+        "roles": ["admin"]
+      }
+    ]
+  },
+
+  "CustomerManagement": {
+    "title": "Quản lý khách hàng",
+    "path": "/customer-management",
+    "icon": "people",
+    "roles": ["admin", "user"]
+  }
+}
