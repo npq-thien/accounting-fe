@@ -3,3 +3,5 @@
 // export const APP_NAME = 'Accounting App';
 
 export const DRAWER_WIDTH = 260;
+
+export type UserRole = "admin" | "user";

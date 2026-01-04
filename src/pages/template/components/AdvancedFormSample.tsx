@@ -1,7 +1,8 @@
+import { notify } from "@/app/toast/toast";
 import {
     FormCheckbox,
     FormDateInput,
-    FormSelect,
+    FormAutocomplete,
     FormTextInput,
     FormTextarea,
 } from "@/shared/components/common";
@@ -37,7 +38,7 @@ const productFormSchema = z.object({
     description: z.string().min(10, "Description must be at least 10 characters"),
     price: z.number().min(0, "Price must be positive"),
     category: z.enum(["electronics", "clothing", "books", "home"], {
-        required_error: "Please select a category",
+        error: "Please select a category",
     }),
     inStock: z.boolean(),
     tags: z.array(z.string()).min(1, "At least one tag is required"),
@@ -67,7 +68,7 @@ const registrationFormSchema = z
         acceptTerms: z.boolean().refine((val) => val === true, "You must accept the terms"),
         newsletter: z.boolean().default(false),
         birthDate: z.date({
-            required_error: "Birth date is required",
+            error: "Birth date is required",
         }),
     })
     .refine((data) => data.password === data.confirmPassword, {
@@ -80,7 +81,7 @@ type RegistrationForm = z.infer<typeof registrationFormSchema>;
 // Example 4: Survey Form Schema
 const surveyFormSchema = z.object({
     satisfaction: z.enum(["1", "2", "3", "4", "5"], {
-        required_error: "Please rate your satisfaction",
+        error: "Please rate your satisfaction",
     }),
     favoriteFeatures: z.array(z.string()).min(1, "Please select at least one feature"),
     comments: z.string().optional(),
@@ -217,7 +218,7 @@ function ContactFormExample() {
     });
 
     const onSubmit: SubmitHandler<ContactForm> = (data) => {
-        toast.success("Contact form submitted!");
+        notify.success("Contact form submitted!");
         console.log("Contact Form Data:", data);
     };
 
@@ -273,7 +274,7 @@ function ProductFormExample() {
     });
 
     const onSubmit: SubmitHandler<ProductForm> = (data) => {
-        toast.success("Product created successfully!");
+        notify.success("Product created successfully!");
         console.log("Product Form Data:", data);
     };
 
@@ -306,7 +307,7 @@ function ProductFormExample() {
                                 error={methods.formState.errors.price?.message}
                             />
 
-                            <FormSelect
+                            <FormAutocomplete
                                 name="category"
                                 label="Category"
                                 placeholder="Select category"
@@ -373,7 +374,7 @@ function RegistrationFormExample() {
     });
 
     const onSubmit: SubmitHandler<RegistrationForm> = (data) => {
-        toast.success("Registration successful!");
+        notify.success("Registration successful!");
         console.log("Registration Form Data:", data);
     };
 
@@ -472,7 +473,7 @@ function SurveyFormExample() {
     };
 
     const onSubmit: SubmitHandler<SurveyForm> = (data) => {
-        toast.success("Survey submitted!");
+        notify.success("Survey submitted!");
         console.log("Survey Form Data:", data);
     };
 
@@ -481,7 +482,7 @@ function SurveyFormExample() {
             <Form onSubmit={methods.handleSubmit(onSubmit)}>
                 <Fieldset legend="Customer Satisfaction Survey">
                     <Stack>
-                        <FormSelect
+                        <FormAutocomplete
                             name="satisfaction"
                             label="How satisfied are you with our service?"
                             placeholder="Select rating"
@@ -556,7 +557,7 @@ function TodoFormExample() {
     });
 
     const onSubmit: SubmitHandler<TodoForm> = (data) => {
-        toast.success("Todo list saved!");
+        notify.success("Todo list saved!");
         console.log("Todo Form Data:", data);
     };
 
@@ -586,7 +587,7 @@ function TodoFormExample() {
                                             withAsterisk
                                         />
 
-                                        <FormSelect
+                                        <FormAutocomplete
                                             name={`todos.${index}.priority`}
                                             label="Priority"
                                             placeholder="Select priority"
@@ -648,4 +649,3 @@ function TodoFormExample() {
         </FormProvider>
     );
 }
-

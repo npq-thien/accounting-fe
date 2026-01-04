@@ -5,10 +5,11 @@ import {
     faUsers,
     faChevronDown,
     faChevronRight,
+    faChevronLeft,
     faCircleDot,
     faStar,
+    faBars,
 } from "@fortawesome/free-solid-svg-icons";
-
 import { faSun, faMoon, faFileLines } from "@fortawesome/free-regular-svg-icons";
 
 export const ICON_MAP = {
@@ -20,6 +21,8 @@ export const ICON_MAP = {
     people: faUsers,
     chevronDown: faChevronDown,
     chevronRight: faChevronRight,
+    chevronLeft: faChevronLeft,
+    bars: faBars,
     form: faFileLines,
     star: faStar,
 } as const satisfies Record<string, IconDefinition>;

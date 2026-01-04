@@ -1,45 +1,24 @@
-import { FormTextInput } from "@/shared/components/common";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { notify } from "@/app/toast/toast";
 import {
-    Box,
-    Button,
-    Fieldset,
-    Group,
-    Stack,
-    Text,
-    Title,
-} from "@mantine/core";
+    CommonButton,
+    FormAutocomplete,
+    FormDateInput,
+    FormTextInput,
+    loader,
+} from "@/shared/components/common";
+import { Box, Divider, Fieldset, Group, Stack, Title } from "@mantine/core";
 import { FormProvider, useForm, type SubmitHandler } from "react-hook-form";
-import { toast } from "react-toastify";
-import { z } from "zod";
+import type { SimpleForm } from "../types";
 
-// Simple form schema for email, phone, and password
-const simpleFormSchema = z.object({
-    email: z.string()
-        .email("Please enter a valid email address")
-        .min(1, "Email is required"),
-
-    phone: z.string()
-        .regex(/^(\+84|84|0)[3|5|7|8|9][0-9]{8}$/, "Please enter a valid Vietnamese phone number")
-        .optional(),
-
-    password: z.string()
-        .min(6, "Password must be at least 6 characters")
-        .min(1, "Password is required"),
-});
-
-type SimpleForm = z.infer<typeof simpleFormSchema>;
-
-// Default values
 const defaultSimpleForm: SimpleForm = {
     email: "",
-    phone: "",
     password: "",
+    gender: "",
+    dateOfBirth: "",
 };
 
 export const FormSample = () => {
     const methods = useForm<SimpleForm>({
-        resolver: zodResolver(simpleFormSchema),
         defaultValues: defaultSimpleForm,
     });
 
@@ -50,14 +29,16 @@ export const FormSample = () => {
 
     const onSubmit: SubmitHandler<SimpleForm> = async (data) => {
         try {
-            // Simulate API call
-            await new Promise((resolve) => setTimeout(resolve, 1000));
+            loader.show();
+            await new Promise((resolve) => setTimeout(resolve, 2000));
 
             console.log("Form data:", data);
-            toast.success("Form submitted successfully!");
+            notify.success("Success", "Form submitted successfully!");
         } catch (error) {
-            toast.error("Failed to submit form");
+            notify.error("Error", "Failed to submit form");
             console.error("Form submission error:", error);
+        } finally {
+            loader.hide();
         }
     };
 
@@ -66,14 +47,11 @@ export const FormSample = () => {
             <Title order={2} mb="lg">
                 Simple Form Sample
             </Title>
-            <Text c="dimmed" mb="xl">
-                This form demonstrates basic validation for email, phone, and password fields.
-            </Text>
 
             <FormProvider {...methods}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Fieldset legend="Basic Information">
-                        <Stack gap="md">
+                        <Stack gap="sm">
                             <FormTextInput
                                 name="email"
                                 label="Email Address"
@@ -81,13 +59,6 @@ export const FormSample = () => {
                                 type="email"
                                 withAsterisk
                             />
-
-                            <FormTextInput
-                                name="phone"
-                                label="Phone Number (Optional)"
-                                placeholder="Enter your phone number"
-                            />
-
                             <FormTextInput
                                 name="password"
                                 label="Password"
@@ -95,11 +66,30 @@ export const FormSample = () => {
                                 type="password"
                                 withAsterisk
                             />
+                            <Divider />
 
+                            <FormDateInput
+                                name="dateOfBirth"
+                                label="Date of Birth"
+                                placeholder="Select your date of birth"
+                                withAsterisk
+                            />
+
+                            <FormAutocomplete
+                                name="gender"
+                                label="Gender"
+                                placeholder="Select your gender"
+                                data={["Male", "Female", "Other"]}
+                            />
+                            <FormTextInput
+                                name="phone"
+                                label="Phone Number (Optional)"
+                                placeholder="Enter your phone number"
+                            />
                             <Group justify="flex-end" mt="md">
-                                <Button type="submit" loading={isSubmitting} size="lg">
+                                <CommonButton type="submit" loading={isSubmitting}>
                                     {isSubmitting ? "Submitting..." : "Submit Form"}
-                                </Button>
+                                </CommonButton>
                             </Group>
                         </Stack>
                     </Fieldset>
@@ -111,8 +101,7 @@ export const FormSample = () => {
                 mt="xl"
                 p="md"
                 bg="gray.0"
-                style={{ border: "1px solid #e9ecef", borderRadius: "4px" }}
-            >
+                style={{ border: "1px solid #e9ecef", borderRadius: "4px" }}>
                 <Title order={5} mb="sm">
                     Debug: Form Errors
                 </Title>

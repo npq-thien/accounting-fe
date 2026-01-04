@@ -1,29 +1,35 @@
-import { useState, type ReactNode } from "react";
+import { useLocalStorage } from "@mantine/hooks";
+import type { ReactNode } from "react";
 import { AuthContext, type AuthUser } from "./AuthContext";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-    const [user, setUser] = useState<AuthUser | null>(null);
+    const [user, setUser] = useLocalStorage<AuthUser | null>({
+        key: 'auth-user',
+        defaultValue: null,
+    });
 
-    // TODO: implement login logic
     const login = async (username: string, password: string) => {
-        const loggedInUser: AuthUser = {
-            username: "admin",
-            role: "admin",
-        };
+        // Simulate API call delay
+        await new Promise(resolve => setTimeout(resolve, 500));
 
-        setUser(loggedInUser);
-        return true;
-        // if (username === "admin" && password === "admin") {
-        //     const loggedInUser: AuthUser = {
-        //         username: "admin",
-        //         role: "admin",
-        //     };
+        // Simple authentication logic
+        if (username === "admin" && password === "admin") {
+            const loggedInUser: AuthUser = {
+                username: "admin",
+                role: "admin",
+            };
+            setUser(loggedInUser);
+            return true;
+        } else if (username === "user" && password === "user") {
+            const loggedInUser: AuthUser = {
+                username: "user",
+                role: "user",
+            };
+            setUser(loggedInUser);
+            return true;
+        }
 
-        //     setUser(loggedInUser);
-        //     return true;
-        // }
-
-        // return false;
+        return false;
     };
 
     const logout = () => {
