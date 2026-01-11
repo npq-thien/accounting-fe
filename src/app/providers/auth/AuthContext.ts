@@ -1,5 +1,6 @@
-import type { UserRole } from "@/shared/constants";
 import { createContext } from "react";
+
+import type { UserRole } from "@/shared/constants";
 
 export interface AuthUser {
     username: string;

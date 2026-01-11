@@ -1,6 +1,8 @@
 import { useLocalStorage } from "@mantine/hooks";
-import type { ReactNode } from "react";
+
 import { AuthContext, type AuthUser } from "./AuthContext";
+
+import type { ReactNode } from "react";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useLocalStorage<AuthUser | null>({

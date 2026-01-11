@@ -1,4 +1,5 @@
 import { toast, type ToastOptions } from "react-toastify";
+
 import { CustomToast } from "./CustomToast";
 
 const baseOptions: ToastOptions = {
@@ -21,7 +22,10 @@ function createToastWithTitle(
     const title = message ? messageOrTitle : defaultTitle;
     const finalMessage = message || messageOrTitle;
 
-    toastFunction(CustomToast({ title, message: finalMessage }), { ...baseOptions, ...options });
+    toastFunction(
+        (toastProps) => CustomToast({ ...toastProps, title, message: finalMessage }),
+        { ...baseOptions, ...options }
+    );
 }
 
 export const notify = {

@@ -1,14 +1,19 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Box, Divider, Fieldset, Grid, Group, Stack, Title } from "@mantine/core";
+import { FormProvider, useForm, type SubmitHandler } from "react-hook-form";
+
+import { SimpleFormSchema } from "../schema";
+
+import type { SimpleForm } from "../types";
+
 import { notify } from "@/app/toast/toast";
 import {
     CommonButton,
-    FormAutocomplete,
     FormDateInput,
+    FormSelect,
     FormTextInput,
     loader,
 } from "@/shared/components/common";
-import { Box, Divider, Fieldset, Group, Stack, Title } from "@mantine/core";
-import { FormProvider, useForm, type SubmitHandler } from "react-hook-form";
-import type { SimpleForm } from "../types";
 
 const defaultSimpleForm: SimpleForm = {
     email: "",
@@ -20,6 +25,7 @@ const defaultSimpleForm: SimpleForm = {
 export const FormSample = () => {
     const methods = useForm<SimpleForm>({
         defaultValues: defaultSimpleForm,
+        resolver: zodResolver(SimpleFormSchema),
     });
 
     const {
@@ -43,7 +49,7 @@ export const FormSample = () => {
     };
 
     return (
-        <Box p="md" maw={600} mx="auto">
+        <Box p="md" mx="0" w="100%">
             <Title order={2} mb="lg">
                 Simple Form Sample
             </Title>
@@ -68,19 +74,29 @@ export const FormSample = () => {
                             />
                             <Divider />
 
-                            <FormDateInput
-                                name="dateOfBirth"
-                                label="Date of Birth"
-                                placeholder="Select your date of birth"
-                                withAsterisk
-                            />
-
-                            <FormAutocomplete
-                                name="gender"
-                                label="Gender"
-                                placeholder="Select your gender"
-                                data={["Male", "Female", "Other"]}
-                            />
+                            <Grid>
+                                <Grid.Col span={6}>
+                                    <FormDateInput
+                                        name="dateOfBirth"
+                                        label="Date of Birth"
+                                        placeholder="Select your date of birth"
+                                        withAsterisk
+                                    />
+                                </Grid.Col>
+                                <Grid.Col span={6}>
+                                    <FormSelect
+                                        name="gender"
+                                        label="Gender"
+                                        placeholder="Select your gender"
+                                        data={[
+                                            { value: "male", label: "Male" },
+                                            { value: "female", label: "Female" },
+                                            { value: "other", label: "Other" },
+                                        ]}
+                                        withAsterisk
+                                    />
+                                </Grid.Col>
+                            </Grid>
                             <FormTextInput
                                 name="phone"
                                 label="Phone Number (Optional)"

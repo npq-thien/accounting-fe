@@ -1,5 +1,6 @@
 import { type ElementProps, type TextInputProps } from "@mantine/core";
 import { Controller } from "react-hook-form";
+
 import { CommonTextInput } from "../CommonTextInput/CommonTextInput";
 
 type Props = TextInputProps &

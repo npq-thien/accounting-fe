@@ -1,5 +1,6 @@
 import { type CheckboxProps } from "@mantine/core";
 import { Controller } from "react-hook-form";
+
 import { CommonCheckbox } from "../CommonCheckbox/CommonCheckbox";
 
 type Props = CheckboxProps & {

@@ -1,5 +1,6 @@
 import { Container, Group, Image, Stack, Text, Title } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
+
 import { CommonButton } from "../components";
 
 export function Unauthorized() {

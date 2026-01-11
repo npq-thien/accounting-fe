@@ -1,7 +1,9 @@
 import { Box, Loader, LoadingOverlay } from "@mantine/core";
-import type React from "react";
 import { useEffect, useState } from "react";
+
 import { setGlobalLoader } from "./PageLoading";
+
+import type React from "react";
 
 export const LoadingProvider = ({ children }: { children: React.ReactNode }) => {
     const [visible, setVisible] = useState(false);

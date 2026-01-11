@@ -1,7 +1,8 @@
 // CommonIcon.tsx
-import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, type BoxProps, useMantineTheme } from "@mantine/core";
+
+import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
 type Props = {
     icon: IconDefinition;

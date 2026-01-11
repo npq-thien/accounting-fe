@@ -1,6 +1,3 @@
-import { CommonButton, CommonIcon } from "@/shared/components/common";
-import { ICON_MAP } from "@/shared/constants/icons";
-import { useAuth } from "@/shared/hooks";
 import {
     AppShell,
     Box,
@@ -13,10 +10,16 @@ import {
     Tooltip,
     useMantineColorScheme,
 } from "@mantine/core";
-import { useDeviceType } from "../hooks/useDeviceType";
-import { useLocation, useNavigate, Outlet } from "react-router-dom";
 import { useState } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+
 import { MENU_ITEMS } from "../constants/menu";
+import { useDeviceType } from "../hooks/useDeviceType";
+
+import { CommonActionIcon, CommonButton, CommonIcon } from "@/shared/components/common";
+import { ICON_MAP } from "@/shared/constants/icons";
+import { useAuth } from "@/shared/hooks";
+import { BORDER_RADIUS_MENU_NAVBAR } from "@/styles/commonStyles";
 
 export function MainLayout() {
     const { user, logout } = useAuth();
@@ -47,15 +50,14 @@ export function MainLayout() {
             }}>
             {/* HEADER */}
             <AppShell.Header>
-                <Group h="100%" px="sm" justify="space-between" style={{ margin: 0 }}>
+                <Group h="100%" px="sm" justify="space-between" m={0}>
                     <Group gap="md">
-                        <CommonButton
+                        <CommonActionIcon
+                            icon={ICON_MAP.bars}
                             variant="subtle"
-                            size="sm"
+                            size="lg"
                             onClick={toggleNavbar}
-                            style={{ padding: "8px" }}>
-                            <CommonIcon icon={ICON_MAP.bars} />
-                        </CommonButton>
+                        />
                         <Box>
                             {/* TODO: update logo and app name */}
                             <Image
@@ -71,20 +73,22 @@ export function MainLayout() {
                     <Group gap={8}>
                         <Group>
                             <Tooltip label="Light mode">
-                                <CommonButton
+                                <CommonActionIcon
+                                    icon={ICON_MAP.sun}
+                                    lightHidden
                                     onClick={toggleColorScheme}
-                                    variant="outline"
-                                    lightHidden>
-                                    <CommonIcon icon={ICON_MAP.sun} />
-                                </CommonButton>
+                                    variant="gradient"
+                                    gradient={{ from: 'red', to: 'yellow', deg: 90 }}
+                                />
                             </Tooltip>
                             <Tooltip label="Dark mode">
-                                <CommonButton
+                                <CommonActionIcon
+                                    icon={ICON_MAP.moon}
+                                    darkHidden
                                     onClick={toggleColorScheme}
-                                    variant="outline"
-                                    darkHidden>
-                                    <CommonIcon icon={ICON_MAP.moon} />
-                                </CommonButton>
+                                    variant="gradient"
+                                    gradient={{ from: 'violet', to: 'blue', deg: 90 }}
+                                />
                             </Tooltip>
                         </Group>
                         <Divider orientation="vertical" />
@@ -117,6 +121,12 @@ export function MainLayout() {
                                             navigate(item.path);
                                         }
                                     }}
+                                    style={{
+                                        borderRadius: BORDER_RADIUS_MENU_NAVBAR,
+                                        "&:hover": {
+                                            borderRadius: BORDER_RADIUS_MENU_NAVBAR
+                                        }
+                                    }}
                                 />
                             ) : navbarCollapsed ? (
                                 // Desktop collapsed: Show icon-only buttons
@@ -126,15 +136,16 @@ export function MainLayout() {
                                             location.pathname === item.path ? "light" : "subtle"
                                         }
                                         size="sm"
+                                        radius="sm"
+                                        w="100%"
+                                        p="12px 4px"
+                                        h="40px"
                                         onClick={() => {
                                             if (!item.children) {
                                                 navigate(item.path);
                                             }
                                         }}
                                         style={{
-                                            width: "100%",
-                                            padding: "12px 4px",
-                                            height: "40px",
                                             justifyContent: "center",
                                         }}>
                                         {item.icon ? (
@@ -159,6 +170,12 @@ export function MainLayout() {
                                     onClick={() => {
                                         if (!item.children) {
                                             navigate(item.path);
+                                        }
+                                    }}
+                                    style={{
+                                        borderRadius: BORDER_RADIUS_MENU_NAVBAR,
+                                        "&:hover": {
+                                            borderRadius: BORDER_RADIUS_MENU_NAVBAR
                                         }
                                     }}
                                 />
@@ -191,9 +208,13 @@ export function MainLayout() {
                                                     }
                                                     active={location.pathname === child.path}
                                                     onClick={() => navigate(child.path)}
+                                                    p="8px 12px"
                                                     style={{
-                                                        padding: "8px 12px",
                                                         fontSize: "14px",
+                                                        borderRadius: BORDER_RADIUS_MENU_NAVBAR,
+                                                        "&:hover": {
+                                                            borderRadius: BORDER_RADIUS_MENU_NAVBAR
+                                                        }
                                                     }}
                                                 />
                                             ) : navbarCollapsed ? (
@@ -209,11 +230,12 @@ export function MainLayout() {
                                                                 : "subtle"
                                                         }
                                                         size="sm"
+                                                        radius="sm"
+                                                        w="100%"
+                                                        p="8px 4px"
+                                                        h="36px"
                                                         onClick={() => navigate(child.path)}
                                                         style={{
-                                                            width: "100%",
-                                                            padding: "8px 4px",
-                                                            height: "36px",
                                                             justifyContent: "center",
                                                         }}>
                                                         {child.icon ? (
@@ -241,9 +263,13 @@ export function MainLayout() {
                                                     }
                                                     active={location.pathname === child.path}
                                                     onClick={() => navigate(child.path)}
+                                                    p="8px 12px"
                                                     style={{
-                                                        padding: "8px 12px",
                                                         fontSize: "14px",
+                                                        borderRadius: BORDER_RADIUS_MENU_NAVBAR,
+                                                        "&:hover": {
+                                                            borderRadius: BORDER_RADIUS_MENU_NAVBAR
+                                                        }
                                                     }}
                                                 />
                                             )

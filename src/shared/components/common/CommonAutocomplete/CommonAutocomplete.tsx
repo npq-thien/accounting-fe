@@ -1,6 +1,9 @@
 import { Autocomplete } from "@mantine/core";
-import type { ComponentProps } from "react";
+
 import { CommonIcon } from "../CommonIcon/CommonIcon";
+
+import type { ComponentProps } from "react";
+
 import { ICON_MAP } from "@/shared/constants/icons";
 
 type Props = ComponentProps<typeof Autocomplete>;

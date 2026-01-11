@@ -1,4 +1,5 @@
 import { z } from "zod";
+
 import { validationMessages as vm } from "@/shared/constants/validationMessages";
 
 export const SimpleFormSchema = z.object({

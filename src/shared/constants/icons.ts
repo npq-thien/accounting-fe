@@ -9,6 +9,7 @@ import {
     faCircleDot,
     faStar,
     faBars,
+    faTable,
 } from "@fortawesome/free-solid-svg-icons";
 import { faSun, faMoon, faFileLines } from "@fortawesome/free-regular-svg-icons";
 
@@ -25,6 +26,7 @@ export const ICON_MAP = {
     bars: faBars,
     form: faFileLines,
     star: faStar,
+    table: faTable,
 } as const satisfies Record<string, IconDefinition>;
 
 export type IconKey = keyof typeof ICON_MAP;

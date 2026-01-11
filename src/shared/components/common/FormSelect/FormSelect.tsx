@@ -1,18 +1,21 @@
-import { type DateInputProps } from "@mantine/dates";
+
 import { Controller } from "react-hook-form";
 
-import { CommonDateInput } from "../CommonDateInput/CommonDateInput";
+import { type ElementProps, type SelectProps } from "@mantine/core";
 
-type Props = DateInputProps & {
-    name: string;
-};
+import { CommonSelect } from "../CommonSelect/CommonSelect";
 
-export function FormDateInput({ name, ...rest }: Props) {
+type Props = SelectProps &
+    Omit<ElementProps<"select", keyof SelectProps>, "value" | "onChange"> & {
+        name: string;
+    };
+
+export function FormSelect({ name, ...rest }: Props) {
     return (
         <Controller
             name={name}
             render={({ field, fieldState }) => (
-                <CommonDateInput
+                <CommonSelect
                     {...field}
                     {...rest}
                     error={fieldState.error?.message}

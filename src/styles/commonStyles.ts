@@ -1,4 +1,6 @@
-// TODO: define later
+export const BORDER_RADIUS_MENU_NAVBAR = "8px";
+
+// TODO: define color palette later
 export const color = {
     emphasis: {
         NEUTRAL_N0: '#FFFFFF',

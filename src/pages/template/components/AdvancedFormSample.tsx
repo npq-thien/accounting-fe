@@ -1,11 +1,3 @@
-import { notify } from "@/app/toast/toast";
-import {
-    FormCheckbox,
-    FormDateInput,
-    FormAutocomplete,
-    FormTextInput,
-    FormTextarea,
-} from "@/shared/components/common";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
     Accordion,
@@ -14,14 +6,22 @@ import {
     Divider,
     Fieldset,
     Group,
-    NumberInput,
     Stack,
     Text,
-    Title,
+    Title
 } from "@mantine/core";
 import { Form, FormProvider, useFieldArray, useForm, type SubmitHandler } from "react-hook-form";
-import { toast } from "react-toastify";
 import { z } from "zod";
+
+import { notify } from "@/app/toast/toast";
+import {
+    FormCheckbox,
+    FormDateInput,
+    FormSelect,
+    FormTextInput,
+    FormTextarea,
+} from "@/shared/components/common";
+import { FormNumberInput } from "@/shared/components/common/FormNumberInput/FormNumberInput";
 
 // Example 1: Simple Contact Form Schema
 const contactFormSchema = z.object({
@@ -299,15 +299,15 @@ function ProductFormExample() {
                         />
 
                         <Group grow>
-                            <NumberInput
+                            <FormNumberInput
+                                name="price"
+                                withAsterisk
                                 label="Price"
                                 placeholder="0"
                                 min={0}
-                                {...methods.register("price", { valueAsNumber: true })}
-                                error={methods.formState.errors.price?.message}
                             />
 
-                            <FormAutocomplete
+                            <FormSelect
                                 name="category"
                                 label="Category"
                                 placeholder="Select category"
@@ -482,7 +482,7 @@ function SurveyFormExample() {
             <Form onSubmit={methods.handleSubmit(onSubmit)}>
                 <Fieldset legend="Customer Satisfaction Survey">
                     <Stack>
-                        <FormAutocomplete
+                        <FormSelect
                             name="satisfaction"
                             label="How satisfied are you with our service?"
                             placeholder="Select rating"
@@ -587,7 +587,7 @@ function TodoFormExample() {
                                             withAsterisk
                                         />
 
-                                        <FormAutocomplete
+                                        <FormSelect
                                             name={`todos.${index}.priority`}
                                             label="Priority"
                                             placeholder="Select priority"

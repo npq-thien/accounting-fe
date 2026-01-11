@@ -1,12 +1,17 @@
 import { Box, Text } from "@mantine/core";
+
 import type { ReactNode } from "react";
+import type { ToastContentProps } from "react-toastify";
 
 type Props = {
     title?: string;
     message: ReactNode;
-};
+} & ToastContentProps;
 
-export const CustomToast = ({ title, message }: Props) => {
+export const CustomToast = (props: Props) => {
+    // Destructure only the props we need, excluding react-toastify specific props
+    const { title, message } = props;
+
     return (
         <Box>
             {title && (

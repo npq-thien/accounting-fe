@@ -1,6 +1,8 @@
-import { type UserRole } from "@/shared/constants";
 import { ICON_MAP } from "./icons";
+
 import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+
+import { type UserRole } from "@/shared/constants";
 
 export interface MenuItem {
     key: string;
@@ -60,6 +62,13 @@ export const MENU_ITEMS: MenuItem[] = [
                 icon: ICON_MAP.form,
                 path: "/template/advanced-form",
                 roles: ["admin"],
+            },
+            {
+                key: "data-table",
+                title: "DataTable",
+                icon: ICON_MAP.table,
+                path: "/template/data-table",
+                roles: ["admin", "user"],
             },
         ],
     },

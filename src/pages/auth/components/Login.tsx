@@ -1,5 +1,3 @@
-import { CommonTextInput } from "@/shared/components";
-import { useAuth } from "@/shared/hooks";
 import {
     Alert,
     Anchor,
@@ -11,6 +9,9 @@ import {
     Title
 } from "@mantine/core";
 import { useState, type FormEvent } from "react";
+
+import { CommonTextInput } from "@/shared/components";
+import { useAuth } from "@/shared/hooks";
 
 export function Login() {
     const { login } = useAuth();

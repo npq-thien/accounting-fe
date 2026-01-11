@@ -1,15 +1,19 @@
-import type { UserRole } from "@/shared/constants";
-import { MENU_ITEMS, type MenuItem } from "@/shared/constants/menu";
 import React from "react";
 import { createBrowserRouter, RouterProvider, useLocation } from "react-router-dom";
-import { ErrorBoundary } from "@/shared/layout/ErrorBoundary";
-import { useAuth } from "@/shared/hooks";
+
+import type { UserRole } from "@/shared/constants";
+
 import { Login } from "@/pages/auth/components/Login";
-import { Unauthorized } from "@/shared/layout/Unauthorized";
-import { MainLayout } from "@/shared/layout/MainLayout";
 import { HomePage } from "@/pages/HomePage";
 import { AdvancedFormSample } from "@/pages/template/components/AdvancedFormSample";
+import { DataTableSample } from "@/pages/template/components/DataTableSample";
 import { FormSample } from "@/pages/template/components/FormSample";
+import { MENU_ITEMS, type MenuItem } from "@/shared/constants/menu";
+import { useAuth } from "@/shared/hooks";
+import { ErrorBoundary } from "@/shared/layout/ErrorBoundary";
+import { MainLayout } from "@/shared/layout/MainLayout";
+import { Unauthorized } from "@/shared/layout/Unauthorized";
+
 
 const getRequiredRolesForPath = (path: string): UserRole[] => {
     const findRolesInMenu = (items: MenuItem[]): UserRole[] | null => {
@@ -28,7 +32,7 @@ const getRequiredRolesForPath = (path: string): UserRole[] => {
     };
 
     const roles = findRolesInMenu(MENU_ITEMS);
-    return roles || []; // Return empty array if no roles found
+    return roles || [];
 };
 
 // Utility function to check if user has permission for a path
@@ -78,6 +82,10 @@ const router = createBrowserRouter([
             {
                 path: "/template/advanced-form",
                 element: <AdvancedFormSample />,
+            },
+            {
+                path: "/template/data-table",
+                element: <DataTableSample />,
             },
             // Add more routes here as needed for order management pages
             // {

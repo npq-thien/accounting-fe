@@ -1,5 +1,6 @@
 import { Container, Group, Image, Stack, Text, Title } from "@mantine/core";
 import { useNavigate, useRouteError } from "react-router-dom";
+
 import { CommonButton } from "../components";
 
 interface RouteError {

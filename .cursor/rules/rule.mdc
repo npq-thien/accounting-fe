@@ -1,0 +1,4 @@
+---
+alwaysApply: true
+---
+Agent don't suggest user to run: npm run dev after completing generate source
