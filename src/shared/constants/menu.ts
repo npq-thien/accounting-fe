@@ -70,6 +70,13 @@ export const MENU_ITEMS: MenuItem[] = [
                 path: "/template/data-table",
                 roles: ["admin", "user"],
             },
+            {
+                key: "permission-button",
+                title: "Permission Button",
+                icon: ICON_MAP.lock,
+                path: "/template/permission-button",
+                roles: ["admin", "user"],
+            },
         ],
     },
 ];

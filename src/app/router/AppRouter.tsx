@@ -8,6 +8,7 @@ import { HomePage } from "@/pages/HomePage";
 import { AdvancedFormSample } from "@/pages/template/components/AdvancedFormSample";
 import { DataTableSample } from "@/pages/template/components/DataTableSample";
 import { FormSample } from "@/pages/template/components/FormSample";
+import { PermissionButtonSample } from "@/pages/template/components/PermissionButtonSample";
 import { MENU_ITEMS, type MenuItem } from "@/shared/constants/menu";
 import { useAuth } from "@/shared/hooks";
 import { ErrorBoundary } from "@/shared/layout/ErrorBoundary";
@@ -86,6 +87,10 @@ const router = createBrowserRouter([
             {
                 path: "/template/data-table",
                 element: <DataTableSample />,
+            },
+            {
+                path: "/template/permission-button",
+                element: <PermissionButtonSample />,
             },
             // Add more routes here as needed for order management pages
             // {

@@ -15,11 +15,16 @@ export function CommonIcon(props: Props) {
     const theme = useMantineTheme();
     const {
         icon,
-        size = 14,
+        size = 16,
         color = theme.colors.gray[6],
         backgroundColor = "transparent",
         ...rest
     } = props;
+
+    if (!icon) {
+        console.warn("Icon is not defined, please define in ICON_MAP")
+    }
+
 
     return (
         <Box

@@ -14,7 +14,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         // Simulate API call delay
         await new Promise(resolve => setTimeout(resolve, 500));
 
-        // Simple authentication logic
+        // TODO: Implement actual authentication logic
         if (username === "admin" && password === "admin") {
             const loggedInUser: AuthUser = {
                 username: "admin",

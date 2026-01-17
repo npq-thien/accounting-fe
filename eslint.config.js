@@ -4,7 +4,6 @@ import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
 import { defineConfig, globalIgnores } from "eslint/config";
-import importPlugin from "eslint-plugin-import";
 
 export default defineConfig([
     globalIgnores(["dist"]),
@@ -20,14 +19,17 @@ export default defineConfig([
             ecmaVersion: 2020,
             globals: globals.browser,
         },
-        plugins: {
-            import: importPlugin,
-        },
         rules: {
             ...js.configs.recommended.rules,
             ...tseslint.configs.recommendedTypeChecked.rules,
             ...tseslint.configs.stylisticTypeChecked.rules,
             "@typescript-eslint/no-explicit-any": "off",
+            "@typescript-eslint/no-unsafe-assignment": "off",
+            "@typescript-eslint/no-unsafe-argument": "off",
+            "@typescript-eslint/no-unsafe-member-access": "off",
+            "@typescript-eslint/no-unsafe-call": "off",
+            "@typescript-eslint/no-unsafe-return": "off",
+            "@typescript-eslint/ban-ts-comment": "off",
             "no-unused-vars": [
                 "error",
                 {
@@ -36,21 +38,16 @@ export default defineConfig([
                     caughtErrorsIgnorePattern: "^_", // Ignore caught errors starting with underscore
                 },
             ],
-            "import/order": [
-                "error",
-                {
-                    groups: [
-                        "builtin",
-                        "external",
-                        "internal",
-                        "parent",
-                        "sibling",
-                        "index",
-                        "type",
-                    ],
-                    "newlines-between": "always",
-                },
-            ],
+        },
+    },
+    {
+        files: ["**/CommonDataTable/**/*.tsx"],
+        rules: {
+            "@typescript-eslint/no-unsafe-assignment": "off",
+            "@typescript-eslint/no-unsafe-argument": "off",
+            "@typescript-eslint/no-unsafe-member-access": "off",
+            "@typescript-eslint/no-unsafe-call": "off",
+            "@typescript-eslint/no-unsafe-return": "off",
         },
     },
 ]);

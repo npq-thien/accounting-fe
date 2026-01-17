@@ -5,3 +5,6 @@
 export const DRAWER_WIDTH = 260;
 
 export type UserRole = "admin" | "user";
+
+// Export permission-related constants
+export * from "./permissions";

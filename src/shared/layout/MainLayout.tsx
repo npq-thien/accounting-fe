@@ -55,7 +55,6 @@ export function MainLayout() {
                         <CommonActionIcon
                             icon={ICON_MAP.bars}
                             variant="subtle"
-                            size="lg"
                             onClick={toggleNavbar}
                         />
                         <Box>
@@ -282,7 +281,7 @@ export function MainLayout() {
             </AppShell.Navbar>
 
             {/* MAIN - This will render the current route's component */}
-            <AppShell.Main my="md">
+            <AppShell.Main>
                 <Outlet />
             </AppShell.Main>
         </AppShell>
