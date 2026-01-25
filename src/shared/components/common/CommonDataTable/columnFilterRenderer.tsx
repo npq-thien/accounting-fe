@@ -1,8 +1,8 @@
 import { type ReactNode } from "react";
-import { TextFilter, MultiSelectFilter, DateRangeFilter } from "./ColumnFilters";
+import { TextFilter, MultiSelectFilter, DateRangeFilter, NumberRangeFilter, type NumberRangeValue } from "./ColumnFilters";
 // import { type ColumnFilterConfig, type FilterType } from "./columnFilterTypes";
 
-export type FilterType = "text" | "multiselect" | "date";
+export type FilterType = "text" | "multiselect" | "date" | "numberRange";
 
 export interface ColumnFilterConfig<T = Record<string, unknown>> {
     // Filter type
@@ -23,6 +23,11 @@ export interface ColumnFilterConfig<T = Record<string, unknown>> {
     dateDescription?: string;
     dateMaxDate?: Date;
     dateMinDate?: Date;
+    // For number range filter
+    numberRangeLabel?: string;
+    numberRangePlaceholderMin?: string;
+    numberRangePlaceholderMax?: string;
+    numberRangeCurrency?: string;
     // Custom filter function
     filterFunction?: (_record: T, _filterValue: any) => boolean;
 }
@@ -75,6 +80,18 @@ export function renderColumnFilter<T = Record<string, any>>(
                     maxDate={config.dateMaxDate}
                     minDate={config.dateMinDate}
                     onClose={onClose}
+                />
+            );
+
+        case "numberRange":
+            return (
+                <NumberRangeFilter
+                    value={(filterValue as NumberRangeValue) || { min: null, max: null }}
+                    onChange={(value) => onFilterChange(value)}
+                    label={config.numberRangeLabel}
+                    placeholderMin={config.numberRangePlaceholderMin}
+                    placeholderMax={config.numberRangePlaceholderMax}
+                    currency={config.numberRangeCurrency}
                 />
             );
 

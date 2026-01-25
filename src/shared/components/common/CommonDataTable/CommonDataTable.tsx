@@ -8,13 +8,13 @@ import {
 } from "mantine-datatable";
 import { useEffect, useMemo, useState } from "react";
 import { renderColumnFilter, type ColumnFilterConfig } from "./columnFilterRenderer";
-
-// Re-export filter types for convenience
-export type { ColumnFilterConfig } from "./columnFilterRenderer";
+import type { NumberRangeValue } from "./ColumnFilters";
 
 const PAGE_SIZES = [5, 10, 25, 50, 100] as const;
 const DEFAULT_PAGE_SIZE = 10;
 const DEFAULT_MAX_HEIGHT = 600;
+const DEFAULT_NUMBER_RANGE_MIN = -9999999999;
+const DEFAULT_NUMBER_RANGE_MAX = 9999999999;
 
 export type CommonDataTableColumn<T = Record<string, unknown>> = DataTableColumn<T> & {
     filterConfig?: ColumnFilterConfig<T>;
@@ -159,7 +159,11 @@ export function CommonDataTable<T = Record<string, unknown>>(props: CommonDataTa
                             const year = dateRange[0].split("-")[0];
                             const month = dateRange[0].split("-")[1];
                             const day = dateRange[0].split("-")[2];
-                            const startDateOnly = new Date(Number(year), Number(month), Number(day));
+                            const startDateOnly = new Date(
+                                Number(year),
+                                Number(month),
+                                Number(day)
+                            );
                             if (recordDateOnly < startDateOnly) return false;
                         }
 
@@ -172,6 +176,17 @@ export function CommonDataTable<T = Record<string, unknown>>(props: CommonDataTa
                         }
 
                         return true;
+                    }
+
+                    case "numberRange": {
+                        const numberRange = filterValue as NumberRangeValue;
+                        const recordNumber =
+                            typeof recordValue === "number" ? recordValue : Number(recordValue);
+                        if (!numberRange.min && !numberRange.max) return true;
+                        return (
+                            recordNumber >= (numberRange.min || DEFAULT_NUMBER_RANGE_MIN) &&
+                            recordNumber <= (numberRange.max || DEFAULT_NUMBER_RANGE_MAX)
+                        );
                     }
 
                     default:
@@ -270,7 +285,17 @@ export function CommonDataTable<T = Record<string, unknown>>(props: CommonDataTa
             }
 
             const accessor = String((column as DataTableColumn<T>).accessor);
-            const filterValue = columnFilters[accessor];
+            const filterValue = columnFilters[accessor] as any;
+
+            const isNumberRangeFiltering = isNullOrEmpty(filterValue)
+                ? false
+                : filterValue.min !== null || filterValue.max !== null;
+
+            const isFiltering =
+                column.filterConfig?.filterType === "numberRange"
+                    ? isNumberRangeFiltering
+                    : !isNullOrEmpty(filterValue) &&
+                      (Array.isArray(filterValue) ? filterValue.length > 0 : true);
 
             return {
                 ...col,
@@ -281,12 +306,10 @@ export function CommonDataTable<T = Record<string, unknown>>(props: CommonDataTa
                         (value) => handleColumnFilterChange(accessor, value),
                         close
                     ),
-                filtering:
-                    !isNullOrEmpty(filterValue) &&
-                    (Array.isArray(filterValue) ? filterValue.length > 0 : true),
+                filtering: isFiltering,
             } as DataTableColumn<T>;
         });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [columns, columnFilters]);
 
     // Reset page when records change

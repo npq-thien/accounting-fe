@@ -38,6 +38,17 @@ export default defineConfig([
                     caughtErrorsIgnorePattern: "^_", // Ignore caught errors starting with underscore
                 },
             ],
+            "max-len": [
+                "warn",
+                {
+                code: 100,
+                tabWidth: 4,
+                ignoreUrls: true,
+                ignoreStrings: true,
+                ignoreTemplateLiterals: true,
+                ignoreComments: true,
+                },
+            ],
         },
     },
     {

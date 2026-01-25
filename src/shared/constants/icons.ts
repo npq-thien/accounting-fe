@@ -15,6 +15,7 @@ import {
     faLock,
     faInfo,
     faCheck,
+    faRotateLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import { faSun, faMoon, faFileLines } from "@fortawesome/free-regular-svg-icons";
 
@@ -25,6 +26,7 @@ export const ICON_MAP = {
     home: faHouse,
     order: faClipboardList,
     people: faUsers,
+    rotateLeft: faRotateLeft,
     chevronDown: faChevronDown,
     chevronRight: faChevronRight,
     chevronLeft: faChevronLeft,

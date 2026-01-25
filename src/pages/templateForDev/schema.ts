@@ -15,9 +15,8 @@ export const SimpleFormSchema = z.object({
     gender: z.string().min(1, vm.required),
 
     dateOfBirth: z
-        .string({
-            error: vm.required,
-        })
+        .string()
+        .min(1, vm.required)
         .refine((date) => {
             const today = new Date();
             if (new Date(date) > today) {

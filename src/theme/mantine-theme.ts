@@ -48,11 +48,13 @@ const colors: Record<string, MantineColorsTuple> = {
     ],
 };
 
+
 export const theme: MantineThemeOverride = {
     colors: colors as Record<string, MantineColorsTuple>,
     // TODO: define primary color
     // primaryColor: "yellow",
-    fontFamily: "Noto Sans, sans-serif",
+    // TODO: This font not loaded bold correctly. Have to import through html
+    // fontFamily: "Noto Sans, sans-serif",
     spacing: {
         xs: "8px",
         sm: "16px",
@@ -78,8 +80,21 @@ export const theme: MantineThemeOverride = {
         },
         TextInput: {
             defaultProps: {
-                size: "sm",
+                radius: "sm",
             },
         },
+        // TextInput: {
+        //     defaultProps: {
+        //         size: "sm",
+        //         label: {
+        //             fontWeight: 500, // Make labels bold
+        //         },
+        //     },
+        //     styles: {
+        //         label: {
+        //             fontWeight: 500, // Make labels bold
+        //         },
+        //     },
+        // },
     },
 };

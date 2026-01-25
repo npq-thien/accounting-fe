@@ -4,11 +4,12 @@ import { FormProvider, useForm, type SubmitHandler } from "react-hook-form";
 
 import { SimpleFormSchema } from "../schema";
 
-import type { SimpleForm } from "../types";
+import type { SimpleForm } from "../type";
 
 import { notify } from "@/app/toast/toast";
 import {
     CommonButton,
+    CommonTextInput,
     FormDateInput,
     FormSelect,
     FormTextInput,
@@ -49,15 +50,15 @@ export const FormSample = () => {
     };
 
     return (
-        <Box p="md" mx="0" w="100%">
+        <Box>
             <Title order={2} mb="lg">
                 Simple Form Sample
             </Title>
-
             <FormProvider {...methods}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Fieldset legend="Basic Information">
                         <Stack gap="sm">
+                            <CommonTextInput label="Your name" placeholder="Your name" />
                             <FormTextInput
                                 name="email"
                                 label="Email Address"

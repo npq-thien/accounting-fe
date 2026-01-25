@@ -137,7 +137,6 @@ export function MainLayout() {
                                         size="sm"
                                         radius="sm"
                                         w="100%"
-                                        p="12px 4px"
                                         h="40px"
                                         onClick={() => {
                                             if (!item.children) {
@@ -282,7 +281,9 @@ export function MainLayout() {
 
             {/* MAIN - This will render the current route's component */}
             <AppShell.Main>
-                <Outlet />
+                <Box p="md" mx="0" w="100%">
+                    <Outlet />
+                </Box>
             </AppShell.Main>
         </AppShell>
     );

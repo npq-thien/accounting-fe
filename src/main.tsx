@@ -10,21 +10,23 @@ import { LoadingProvider } from "./shared/components/common/PageLoading/PageLoad
 import { theme } from "./theme/mantine-theme.ts";
 // Styles
 // import "./index.css";
-import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
 import "mantine-datatable/styles.css";
+import '@mantine/core/styles/default-css-variables.css';
+import { QueryProvider } from "./app/providers/QueryProvider.tsx";
 
-// import './layout.css';
 
 createRoot(document.getElementById("root")!).render(
     <StrictMode>
-        <AuthProvider>
-            <MantineProvider theme={theme}>
+        <MantineProvider theme={theme}>
+            <QueryProvider>
                 <LoadingProvider>
-                    <App />
-                    <ToastContainer />
+                    <AuthProvider>
+                        <App />
+                        <ToastContainer />
+                    </AuthProvider>
                 </LoadingProvider>
-            </MantineProvider>
-        </AuthProvider>
-    </StrictMode>
+            </QueryProvider>
+        </MantineProvider>
+    </StrictMode >
 );

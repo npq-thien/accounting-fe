@@ -1,8 +1,10 @@
-import { CommonIcon } from "@/shared/components/common";
+import { CommonActionIcon, CommonIcon } from "@/shared/components/common";
 import { ICON_MAP } from "@/shared/constants/icons";
 import { ActionIcon, Button, MultiSelect, Stack, TextInput } from "@mantine/core";
 import { DatePicker, type DatesRangeValue } from "@mantine/dates";
 import dayjs from "dayjs";
+
+const DEBOUNCE_INPUT_FILTER = 500;
 
 export interface TextFilterProps {
     value: string;
@@ -19,6 +21,21 @@ export function TextFilter({
     label,
     description,
 }: TextFilterProps) {
+    const [innerValue, setInnerValue] = useState(value);
+    const [debounced] = useDebouncedValue(innerValue, DEBOUNCE_INPUT_FILTER);
+
+    useDidUpdate(() => {
+        if (value !== innerValue) {
+            setInnerValue(value);
+        }
+    }, [value]);
+
+    useEffect(() => {
+        if (debounced !== value) {
+            onChange(debounced);
+        }
+    }, [debounced]); // eslint-disable-line react-hooks/exhaustive-deps
+
     return (
         <TextInput
             label={label}
@@ -26,20 +43,18 @@ export function TextFilter({
             placeholder={placeholder}
             leftSection={<CommonIcon icon={ICON_MAP.search} size={16} />}
             rightSection={
-                value ? (
+                innerValue ? (
                     <ActionIcon
                         size="sm"
                         variant="transparent"
                         c="dimmed"
-                        onClick={() => {
-                            onChange("");
-                        }}>
+                        onClick={() => setInnerValue("")}>
                         <CommonIcon icon={ICON_MAP.close} size={14} />
                     </ActionIcon>
                 ) : null
             }
-            value={value}
-            onChange={(e) => onChange(e.currentTarget.value)}
+            value={innerValue}
+            onChange={(e) => setInnerValue(e.currentTarget.value)}
         />
     );
 }
@@ -65,14 +80,29 @@ export function MultiSelectFilter({
     searchable = true,
     clearable = true,
 }: MultiSelectFilterProps) {
+    const [innerValue, setInnerValue] = useState(value);
+    const [debounced] = useDebouncedValue(innerValue, DEBOUNCE_INPUT_FILTER);
+
+    useDidUpdate(() => {
+        if (value !== innerValue) {
+            setInnerValue(value);
+        }
+    }, [value]);
+
+    useEffect(() => {
+        if (debounced !== value) {
+            onChange(debounced);
+        }
+    }, [debounced]); // eslint-disable-line react-hooks/exhaustive-deps
+
     return (
         <MultiSelect
             label={label}
             description={description}
             data={data}
-            value={value}
+            value={innerValue}
             placeholder={placeholder}
-            onChange={onChange}
+            onChange={(value) => setInnerValue(value || [])}
             leftSection={<CommonIcon icon={ICON_MAP.search} size={16} />}
             comboboxProps={{ withinPortal: false }}
             clearable={clearable}
@@ -157,5 +187,88 @@ export function DateRangeFilter({
                 </Button>
             )}
         </Stack>
+    );
+}
+
+// src/shared/components/Filters/NumberRangeFilter.tsx
+import { Group, NumberInput, Text } from "@mantine/core";
+import { useDebouncedValue, useDidUpdate } from "@mantine/hooks";
+import { useEffect, useState } from "react";
+
+export interface NumberRangeValue {
+    min: number | null;
+    max: number | null;
+}
+
+export interface NumberRangeFilterProps {
+    value: NumberRangeValue;
+    onChange: (_value: NumberRangeValue) => void;
+    label?: string;
+    placeholderMin?: string;
+    placeholderMax?: string;
+    currency?: string;
+}
+
+export function NumberRangeFilter({
+    value,
+    onChange,
+    label,
+    placeholderMin = "Từ",
+    placeholderMax = "Đến",
+    currency,
+}: NumberRangeFilterProps) {
+    const handleMinChange = (val: number | string) => {
+        onChange({ ...value, min: val === "" ? null : Number(val) });
+    };
+
+    const handleMaxChange = (val: number | string) => {
+        onChange({ ...value, max: val === "" ? null : Number(val) });
+    };
+
+    const handleReset = () => {
+        onChange({ min: null, max: null });
+    };
+
+    return (
+        <div style={{ width: "100%" }}>
+            <Group justify="space-between">
+                {label && (
+                    <Text size="sm" fw={500} mb={4}>
+                        {label}
+                    </Text>
+                )}
+                <CommonActionIcon icon={ICON_MAP.rotateLeft} size="sm" onClick={handleReset} />
+            </Group>
+
+            <Group gap="xs">
+                <NumberInput
+                    placeholder={placeholderMin}
+                    value={value.min ?? ""}
+                    onChange={handleMinChange}
+                    thousandSeparator=","
+                    rightSection={
+                        currency ? (
+                            <Text size="xs" c="dimmed">
+                                {currency}
+                            </Text>
+                        ) : null
+                    }
+                />
+                <Text c="dimmed">-</Text>
+                <NumberInput
+                    placeholder={placeholderMax}
+                    value={value.max ?? ""}
+                    onChange={handleMaxChange}
+                    thousandSeparator=","
+                    rightSection={
+                        currency ? (
+                            <Text size="xs" c="dimmed">
+                                {currency}
+                            </Text>
+                        ) : null
+                    }
+                />
+            </Group>
+        </div>
     );
 }

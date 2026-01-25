@@ -115,7 +115,7 @@ export const DataTableSample = () => {
     ];
 
     return (
-        <Box p="md" w="100%">
+        <Box>
             <Title order={2} mb="lg">
                 Data table sample
             </Title>
@@ -126,8 +126,8 @@ export const DataTableSample = () => {
                     status === "Inactive"
                         ? { light: "#fff5f5", dark: "#3b1d1d" }
                         : status === "Probation"
-                          ? { light: "#fffbeb", dark: "#3b2f1d" }
-                          : undefined
+                            ? { light: "#fffbeb", dark: "#3b2f1d" }
+                            : undefined
                 }
                 onRowClick={({ record }: { record: User }) => {
                     notify.success("User selected", record.fullName);

@@ -152,7 +152,7 @@ const defaultTodoForm: TodoForm = {
 
 export function AdvancedFormSample() {
     return (
-        <Box p="md">
+        <Box>
             <Title order={2} mb="lg">
                 Advanced Form Samples
             </Title>

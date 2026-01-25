@@ -5,9 +5,10 @@ import { usePermission } from "@/shared/hooks/usePermission";
 
 import { CommonButton } from "./CommonButton";
 
-import type { ButtonProps, ElementProps } from "@mantine/core";
+import { Tooltip, type ButtonProps, type ElementProps } from "@mantine/core";
 
-export interface PermissionButtonProps extends ButtonProps, ElementProps<"button", keyof ButtonProps> {
+export interface PermissionButtonProps
+    extends ButtonProps, ElementProps<"button", keyof ButtonProps> {
     /**
      * Required permission(s) to show the button
      * Can be a single permission or an array of permissions
@@ -127,12 +128,15 @@ export function PermissionButton({
     if (!hasRequiredPermission) {
         if (showDisabled) {
             return (
-                <CommonButton
-                    disabled
-                    title={disabledTooltip || "You don't have permission to perform this action"}
-                    {...rest}>
-                    {children}
-                </CommonButton>
+                <Tooltip
+                    label={disabledTooltip || "You don't have permission to perform this action"}
+                    position="bottom">
+                    <CommonButton
+                        disabled
+                        {...rest}>
+                        {children}
+                    </CommonButton>
+                </Tooltip>
             );
         }
 
@@ -145,4 +149,3 @@ export function PermissionButton({
         </CommonButton>
     );
 }
-

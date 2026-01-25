@@ -20,7 +20,7 @@ export function PermissionButtonSample() {
     const { hasPermission, permissions } = usePermission();
 
     return (
-        <Box p="md" w="100%">
+        <Box>
             <Stack gap="lg">
                 {/* Header */}
                 <Box>

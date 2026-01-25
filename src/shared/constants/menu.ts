@@ -71,6 +71,13 @@ export const MENU_ITEMS: MenuItem[] = [
                 roles: ["admin", "user"],
             },
             {
+                key: "products-table",
+                title: "Products (API)",
+                icon: ICON_MAP.table,
+                path: "/template/products-table",
+                roles: ["admin", "user"],
+            },
+            {
                 key: "permission-button",
                 title: "Permission Button",
                 icon: ICON_MAP.lock,
