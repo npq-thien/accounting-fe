@@ -2,19 +2,21 @@ import {
     Alert,
     Anchor,
     Box,
-    Button,
     Paper,
     PasswordInput,
     Stack,
     Title
 } from "@mantine/core";
 import { useState, type FormEvent } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
-import { CommonTextInput } from "@/shared/components";
+import { CommonButton, CommonTextInput } from "@/shared/components";
 import { useAuth } from "@/shared/hooks";
 
 export function Login() {
     const { login } = useAuth();
+    const navigate = useNavigate();
+    const location = useLocation();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
@@ -27,7 +29,11 @@ export function Login() {
 
         const success = await login(username, password);
 
-        if (!success) {
+        if (success) {
+            // Navigate to the page they tried to visit or home page
+            const from = (location.state as any)?.from || "/";
+            navigate(from, { replace: true });
+        } else {
             setError("Tài khoản hoặc mật khẩu không đúng");
         }
 
@@ -73,9 +79,9 @@ export function Login() {
                             onClick={() => {}}>
                             Quên mật khẩu
                         </Anchor>
-                        <Button type="submit" variant="filled" fullWidth loading={isSubmitting}>
+                        <CommonButton type="submit" title="Đăng nhập" loading={isSubmitting}>
                             Đăng nhập
-                        </Button>
+                        </CommonButton>
                     </Stack>
                 </form>
             </Paper>

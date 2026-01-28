@@ -2,6 +2,7 @@ import { MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 import App from "./App.tsx";
@@ -10,23 +11,24 @@ import { LoadingProvider } from "./shared/components/common/PageLoading/PageLoad
 import { theme } from "./theme/mantine-theme.ts";
 // Styles
 // import "./index.css";
+import "@mantine/core/styles/default-css-variables.css";
 import "@mantine/dates/styles.css";
 import "mantine-datatable/styles.css";
-import '@mantine/core/styles/default-css-variables.css';
 import { QueryProvider } from "./app/providers/QueryProvider.tsx";
-
 
 createRoot(document.getElementById("root")!).render(
     <StrictMode>
         <MantineProvider theme={theme}>
-            <QueryProvider>
-                <LoadingProvider>
-                    <AuthProvider>
-                        <App />
-                        <ToastContainer />
-                    </AuthProvider>
-                </LoadingProvider>
-            </QueryProvider>
+            <BrowserRouter>
+                <QueryProvider>
+                    <LoadingProvider>
+                        <AuthProvider>
+                            <App />
+                            <ToastContainer />
+                        </AuthProvider>
+                    </LoadingProvider>
+                </QueryProvider>
+            </BrowserRouter>
         </MantineProvider>
-    </StrictMode >
+    </StrictMode>
 );

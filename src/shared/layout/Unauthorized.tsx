@@ -16,11 +16,9 @@ export function Unauthorized() {
                     </Title>
                     <Title order={2}>Access Denied</Title>
                     <Text size="lg" c="dimmed" ta="center">
-                        You don't have permission to access this page.
+                        Bạn không có quyền truy cập trang này.
                     </Text>
-                    <CommonButton onClick={() => navigate("/")}>
-                        Back to Home Page
-                    </CommonButton>
+                    <CommonButton onClick={() => navigate("/")}>Quay lại trang chủ</CommonButton>
                 </Stack>
 
                 {/* Right image */}

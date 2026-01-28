@@ -3,11 +3,14 @@ import { useLocalStorage } from "@mantine/hooks";
 import { AuthContext, type AuthUser } from "./AuthContext";
 
 import type { ReactNode } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+    const navigate = useNavigate();
     const [user, setUser] = useLocalStorage<AuthUser | null>({
         key: 'auth-user',
         defaultValue: null,
+        getInitialValueInEffect: false, // Read from localStorage immediately, not in useEffect
     });
 
     const login = async (username: string, password: string) => {
@@ -21,12 +24,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 role: "admin",
             };
             setUser(loggedInUser);
+            navigate("/");
             return true;
         } else if (username === "user" && password === "user") {
             const loggedInUser: AuthUser = {
                 username: "user",
                 role: "user",
             };
+            navigate("/");
             setUser(loggedInUser);
             return true;
         }
@@ -36,6 +41,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const logout = () => {
         setUser(null);
+        // Navigation to login will be handled by ProtectedRoute
     };
 
     return (
@@ -44,6 +50,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 user,
                 login,
                 logout,
+                isInitializing: false, // With getInitialValueInEffect: false, user is read immediately
             }}>
             {children}
         </AuthContext.Provider>

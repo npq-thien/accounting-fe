@@ -77,7 +77,7 @@ export function MainLayout() {
                                     lightHidden
                                     onClick={toggleColorScheme}
                                     variant="gradient"
-                                    gradient={{ from: 'red', to: 'yellow', deg: 90 }}
+                                    gradient={{ from: "red", to: "yellow", deg: 90 }}
                                 />
                             </Tooltip>
                             <Tooltip label="Dark mode">
@@ -86,7 +86,7 @@ export function MainLayout() {
                                     darkHidden
                                     onClick={toggleColorScheme}
                                     variant="gradient"
-                                    gradient={{ from: 'violet', to: 'blue', deg: 90 }}
+                                    gradient={{ from: "violet", to: "blue", deg: 90 }}
                                 />
                             </Tooltip>
                         </Group>
@@ -123,8 +123,8 @@ export function MainLayout() {
                                     style={{
                                         borderRadius: BORDER_RADIUS_MENU_NAVBAR,
                                         "&:hover": {
-                                            borderRadius: BORDER_RADIUS_MENU_NAVBAR
-                                        }
+                                            borderRadius: BORDER_RADIUS_MENU_NAVBAR,
+                                        },
                                     }}
                                 />
                             ) : navbarCollapsed ? (
@@ -173,8 +173,8 @@ export function MainLayout() {
                                     style={{
                                         borderRadius: BORDER_RADIUS_MENU_NAVBAR,
                                         "&:hover": {
-                                            borderRadius: BORDER_RADIUS_MENU_NAVBAR
-                                        }
+                                            borderRadius: BORDER_RADIUS_MENU_NAVBAR,
+                                        },
                                     }}
                                 />
                             )}
@@ -193,6 +193,7 @@ export function MainLayout() {
                                             isMobile ? (
                                                 // Mobile: Always show full NavLink
                                                 <NavLink
+                                                    href={child.path}
                                                     key={child.key}
                                                     label={child.title}
                                                     leftSection={
@@ -205,14 +206,13 @@ export function MainLayout() {
                                                         )
                                                     }
                                                     active={location.pathname === child.path}
-                                                    onClick={() => navigate(child.path)}
                                                     p="8px 12px"
                                                     style={{
                                                         fontSize: "14px",
                                                         borderRadius: BORDER_RADIUS_MENU_NAVBAR,
                                                         "&:hover": {
-                                                            borderRadius: BORDER_RADIUS_MENU_NAVBAR
-                                                        }
+                                                            borderRadius: BORDER_RADIUS_MENU_NAVBAR,
+                                                        },
                                                     }}
                                                 />
                                             ) : navbarCollapsed ? (
@@ -232,7 +232,6 @@ export function MainLayout() {
                                                         w="100%"
                                                         p="8px 4px"
                                                         h="36px"
-                                                        onClick={() => navigate(child.path)}
                                                         style={{
                                                             justifyContent: "center",
                                                         }}>
@@ -248,6 +247,7 @@ export function MainLayout() {
                                             ) : (
                                                 // Desktop expanded: Show full NavLink
                                                 <NavLink
+                                                    href={child.path}
                                                     key={child.key}
                                                     label={child.title}
                                                     leftSection={
@@ -260,14 +260,13 @@ export function MainLayout() {
                                                         )
                                                     }
                                                     active={location.pathname === child.path}
-                                                    onClick={() => navigate(child.path)}
                                                     p="8px 12px"
                                                     style={{
                                                         fontSize: "14px",
                                                         borderRadius: BORDER_RADIUS_MENU_NAVBAR,
                                                         "&:hover": {
-                                                            borderRadius: BORDER_RADIUS_MENU_NAVBAR
-                                                        }
+                                                            borderRadius: BORDER_RADIUS_MENU_NAVBAR,
+                                                        },
                                                     }}
                                                 />
                                             )
