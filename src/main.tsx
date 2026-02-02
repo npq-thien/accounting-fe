@@ -1,5 +1,6 @@
 import { MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
+import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
@@ -15,6 +16,8 @@ import "@mantine/core/styles/default-css-variables.css";
 import "@mantine/dates/styles.css";
 import "mantine-datatable/styles.css";
 import { QueryProvider } from "./app/providers/QueryProvider.tsx";
+
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 createRoot(document.getElementById("root")!).render(
     <StrictMode>

@@ -4,7 +4,6 @@ import {
     Divider,
     Group,
     Image,
-    NavLink,
     Stack,
     Title,
     Tooltip,
@@ -13,13 +12,13 @@ import {
 import { useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
-import { MENU_ITEMS } from "../constants/menu";
+import { MENU_ITEMS, type MenuItem } from "../constants/menu";
 import { useDeviceType } from "../hooks/useDeviceType";
 
-import { CommonActionIcon, CommonButton, CommonIcon } from "@/shared/components/common";
+import { CommonActionIcon, CommonButton } from "@/shared/components/common";
 import { ICON_MAP } from "@/shared/constants/icons";
 import { useAuth } from "@/shared/hooks";
-import { BORDER_RADIUS_MENU_NAVBAR } from "@/styles/commonStyles";
+import MenuItemRenderer from "./NavBarRenderer";
 
 export function MainLayout() {
     const { user, logout } = useAuth();
@@ -28,7 +27,25 @@ export function MainLayout() {
     const { colorScheme, setColorScheme } = useMantineColorScheme();
     const { isMobile } = useDeviceType();
     const [navbarCollapsed, setNavbarCollapsed] = useState(false);
-    const [menuChildrenExpanded] = useState(true); // TODO: make this dynamic later
+    // TODO: temporary expanded menus
+    const [expandedMenus, setExpandedMenus] = useState<Record<string, boolean>>({
+        "order-management": true,
+        template: true,
+    });
+
+    const isMenuExpanded = (item: MenuItem) => {
+        if (!item.children) return false;
+        return expandedMenus[item.key] ?? false;
+    };
+
+    const toggleMenuExpand = (item: MenuItem) => {
+        if (!item.children) return;
+
+        setExpandedMenus((prev) => ({
+            ...prev,
+            [item.key]: !prev[item.key],
+        }));
+    };
 
     const toggleColorScheme = () => {
         setColorScheme(colorScheme === "dark" ? "light" : "dark");
@@ -42,6 +59,7 @@ export function MainLayout() {
 
     return (
         <AppShell
+            bg={colorScheme === "dark" ? "#1a1b1e" : "#fbfbfb"}
             header={{ height: 60 }}
             navbar={{
                 width: isMobile ? 260 : navbarCollapsed ? 70 : 260, // Mobile: always full width, Desktop: collapsible
@@ -60,11 +78,10 @@ export function MainLayout() {
                         <Box>
                             {/* TODO: update logo and app name */}
                             <Image
-                                src="/images/cat.svg"
+                                src="/images/logo.ico"
                                 alt="Logo"
                                 width={40}
                                 height={40}
-                                radius="sm"
                             />
                         </Box>
                         {!isMobile && <Title order={3}>Accounting App</Title>}
@@ -98,183 +115,51 @@ export function MainLayout() {
                 </Group>
             </AppShell.Header>
 
-            {/* NAVBAR */}
-            <AppShell.Navbar>
+            <AppShell.Navbar bg={colorScheme === "dark" ? "#1a1b1e" : "#fbfbfb"}>
                 <Stack gap={4} p={navbarCollapsed ? "xs" : "sm"}>
-                    {visibleMenu.map((item) => (
-                        <Box key={item.key}>
-                            {isMobile ? (
-                                // Mobile: Always show full NavLink when navbar is visible
-                                <NavLink
-                                    label={item.title}
-                                    leftSection={
-                                        item.icon ? (
-                                            <CommonIcon icon={item.icon} />
-                                        ) : (
-                                            <CommonIcon icon={ICON_MAP.defaultMenuIcon} />
-                                        )
-                                    }
-                                    active={location.pathname === item.path}
-                                    onClick={() => {
-                                        if (!item.children) {
-                                            navigate(item.path);
-                                        }
-                                    }}
-                                    style={{
-                                        borderRadius: BORDER_RADIUS_MENU_NAVBAR,
-                                        "&:hover": {
-                                            borderRadius: BORDER_RADIUS_MENU_NAVBAR,
-                                        },
-                                    }}
-                                />
-                            ) : navbarCollapsed ? (
-                                // Desktop collapsed: Show icon-only buttons
-                                <Tooltip label={item.title} position="right">
-                                    <CommonButton
-                                        variant={
-                                            location.pathname === item.path ? "light" : "subtle"
-                                        }
-                                        size="sm"
-                                        radius="sm"
-                                        w="100%"
-                                        h="40px"
-                                        onClick={() => {
-                                            if (!item.children) {
-                                                navigate(item.path);
-                                            }
-                                        }}
-                                        style={{
-                                            justifyContent: "center",
-                                        }}>
-                                        {item.icon ? (
-                                            <CommonIcon icon={item.icon} />
-                                        ) : (
-                                            <CommonIcon icon={ICON_MAP.defaultMenuIcon} />
-                                        )}
-                                    </CommonButton>
-                                </Tooltip>
-                            ) : (
-                                // Desktop expanded: Show full NavLink
-                                <NavLink
-                                    label={item.title}
-                                    leftSection={
-                                        item.icon ? (
-                                            <CommonIcon icon={item.icon} />
-                                        ) : (
-                                            <CommonIcon icon={ICON_MAP.defaultMenuIcon} />
-                                        )
-                                    }
-                                    active={location.pathname === item.path}
-                                    onClick={() => {
-                                        if (!item.children) {
-                                            navigate(item.path);
-                                        }
-                                    }}
-                                    style={{
-                                        borderRadius: BORDER_RADIUS_MENU_NAVBAR,
-                                        "&:hover": {
-                                            borderRadius: BORDER_RADIUS_MENU_NAVBAR,
-                                        },
-                                    }}
-                                />
-                            )}
+                    {visibleMenu.map((item) => {
+                        const isActive = location.pathname === item.path;
 
-                            {/* Menu Children - Show when menuChildrenExpanded is true */}
-                            {item.children && menuChildrenExpanded && (
-                                <Stack
-                                    gap={2}
-                                    ml={isMobile ? "lg" : navbarCollapsed ? 0 : "lg"}
-                                    mt={isMobile ? 4 : navbarCollapsed ? 2 : 4}>
-                                    {item.children
-                                        .filter((child) =>
-                                            child.roles.includes(user?.role ?? "user")
-                                        )
-                                        .map((child) =>
-                                            isMobile ? (
-                                                // Mobile: Always show full NavLink
-                                                <NavLink
-                                                    href={child.path}
+                        return (
+                            <Box key={item.key}>
+                                <MenuItemRenderer
+                                    item={item}
+                                    isMobile={isMobile}
+                                    navbarCollapsed={navbarCollapsed}
+                                    isActive={isActive}
+                                    onClick={() => {
+                                        if (item.children) {
+                                            toggleMenuExpand(item);
+                                        } else {
+                                            navigate(item.path);
+                                        }
+                                    }}
+                                    isExpanded={isMenuExpanded(item)}
+                                />
+
+                                {item.children && isMenuExpanded(item) && (
+                                    <Stack
+                                        gap={2}
+                                        ml={isMobile ? "lg" : navbarCollapsed ? 0 : "lg"}
+                                        mt={4}>
+                                        {item.children
+                                            .filter((c) => c.roles.includes(user?.role ?? "user"))
+                                            .map((child) => (
+                                                <MenuItemRenderer
                                                     key={child.key}
-                                                    label={child.title}
-                                                    leftSection={
-                                                        child.icon ? (
-                                                            <CommonIcon icon={child.icon} />
-                                                        ) : (
-                                                            <CommonIcon
-                                                                icon={ICON_MAP.defaultMenuIcon}
-                                                            />
-                                                        )
-                                                    }
-                                                    active={location.pathname === child.path}
-                                                    p="8px 12px"
-                                                    style={{
-                                                        fontSize: "14px",
-                                                        borderRadius: BORDER_RADIUS_MENU_NAVBAR,
-                                                        "&:hover": {
-                                                            borderRadius: BORDER_RADIUS_MENU_NAVBAR,
-                                                        },
-                                                    }}
+                                                    item={child}
+                                                    isMobile={isMobile}
+                                                    navbarCollapsed={navbarCollapsed}
+                                                    isActive={location.pathname === child.path}
+                                                    onClick={() => navigate(child.path)}
+                                                    isExpanded={false} // Chilren don't have children
                                                 />
-                                            ) : navbarCollapsed ? (
-                                                // Desktop collapsed: Show icon-only buttons
-                                                <Tooltip
-                                                    label={child.title}
-                                                    position="right"
-                                                    key={child.key}>
-                                                    <CommonButton
-                                                        variant={
-                                                            location.pathname === child.path
-                                                                ? "light"
-                                                                : "subtle"
-                                                        }
-                                                        size="sm"
-                                                        radius="sm"
-                                                        w="100%"
-                                                        p="8px 4px"
-                                                        h="36px"
-                                                        style={{
-                                                            justifyContent: "center",
-                                                        }}>
-                                                        {child.icon ? (
-                                                            <CommonIcon icon={child.icon} />
-                                                        ) : (
-                                                            <CommonIcon
-                                                                icon={ICON_MAP.defaultMenuIcon}
-                                                            />
-                                                        )}
-                                                    </CommonButton>
-                                                </Tooltip>
-                                            ) : (
-                                                // Desktop expanded: Show full NavLink
-                                                <NavLink
-                                                    href={child.path}
-                                                    key={child.key}
-                                                    label={child.title}
-                                                    leftSection={
-                                                        child.icon ? (
-                                                            <CommonIcon icon={child.icon} />
-                                                        ) : (
-                                                            <CommonIcon
-                                                                icon={ICON_MAP.defaultMenuIcon}
-                                                            />
-                                                        )
-                                                    }
-                                                    active={location.pathname === child.path}
-                                                    p="8px 12px"
-                                                    style={{
-                                                        fontSize: "14px",
-                                                        borderRadius: BORDER_RADIUS_MENU_NAVBAR,
-                                                        "&:hover": {
-                                                            borderRadius: BORDER_RADIUS_MENU_NAVBAR,
-                                                        },
-                                                    }}
-                                                />
-                                            )
-                                        )}
-                                </Stack>
-                            )}
-                        </Box>
-                    ))}
+                                            ))}
+                                    </Stack>
+                                )}
+                            </Box>
+                        );
+                    })}
                 </Stack>
             </AppShell.Navbar>
 

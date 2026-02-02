@@ -1,7 +1,7 @@
 import { Box, Title } from "@mantine/core";
 import { useLocation } from "react-router-dom";
 
-export function HomePage() {
+export function Home() {
     const location = useLocation();
 
     return (

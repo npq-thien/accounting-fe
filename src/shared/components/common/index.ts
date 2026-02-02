@@ -1,4 +1,5 @@
 export * from "./CommonActionIcon/CommonActionIcon";
+export * from "./CommonAgGridTable";
 export * from "./CommonAutocomplete/CommonAutocomplete";
 export * from "./CommonButton";
 export * from "./CommonCheckbox/CommonCheckbox";

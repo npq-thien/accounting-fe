@@ -4,7 +4,7 @@ import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import type { UserRole } from "@/shared/constants";
 
 import { Login } from "@/pages/auth/components/Login";
-import { HomePage } from "@/pages/HomePage";
+import { Home } from "@/pages/home/Home";
 import { AdvancedFormSample } from "@/pages/templateForDev/components/AdvancedFormSample";
 import { DataTableSample } from "@/pages/templateForDev/components/DataTableSample";
 import { FormSample } from "@/pages/templateForDev/components/FormSample";
@@ -15,6 +15,7 @@ import { useAuth } from "@/shared/hooks";
 import { ErrorBoundary } from "@/shared/layout/ErrorBoundary";
 import { MainLayout } from "@/shared/layout/MainLayout";
 import { Unauthorized } from "@/shared/layout/Unauthorized";
+import { AgGridSample } from "@/pages/templateForDev/components/AgGridSample";
 
 const getRequiredRolesForPath = (path: string): UserRole[] => {
     const findRolesInMenu = (items: MenuItem[]): UserRole[] | null => {
@@ -95,6 +96,7 @@ const PAGE_TITLES: Record<string, string> = {
     "/template/advanced-form": "Advanced Form",
     "/template/data-table": "Data Table",
     "/template/products-table": "Products",
+    "/template/ag-grid": "AgGrid",
     "/template/permission-button": "Permission Button",
 };
 
@@ -105,11 +107,12 @@ export function AppRouter() {
             <Routes>
                 <Route path="/login" element={<Login />} />
                 <Route path="/" element={<ProtectedRouteLayout />}>
-                    <Route index element={<HomePage />} />
+                    <Route index element={<Home />} />
                     <Route path="template/form" element={<FormSample />} />
                     <Route path="template/advanced-form" element={<AdvancedFormSample />} />
                     <Route path="template/data-table" element={<DataTableSample />} />
                     <Route path="template/products-table" element={<ProductsDataTable />} />
+                    <Route path="template/ag-grid" element={<AgGridSample />} />
                     <Route path="template/permission-button" element={<PermissionButtonSample />} />
                     {/* Add more routes here as needed for order management pages */}
                     {/* <Route path="order-management/order-buy" element={<OrderBuyComponent />} /> */}

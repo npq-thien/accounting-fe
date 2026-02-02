@@ -49,47 +49,6 @@ export interface PermissionButtonProps
  * - Hidden (default behavior)
  * - Disabled (when showDisabled=true)
  * - Replaced with custom fallback content
- *
- * @example
- * ```tsx
- * // Simple usage - hide button if no permission
- * <PermissionButton permission="order:delete">
- *   Delete Order
- * </PermissionButton>
- *
- * // Show disabled button if no permission
- * <PermissionButton
- *   permission="order:approve"
- *   showDisabled
- *   disabledTooltip="You don't have permission to approve orders"
- * >
- *   Approve Order
- * </PermissionButton>
- *
- * // Require any of multiple permissions
- * <PermissionButton
- *   permission={["order:edit", "order:delete"]}
- *   permissionMode="any"
- * >
- *   Manage Order
- * </PermissionButton>
- *
- * // Require all permissions
- * <PermissionButton
- *   permission={["finance:view-reports", "finance:export-reports"]}
- *   permissionMode="all"
- * >
- *   Export Financial Report
- * </PermissionButton>
- *
- * // Custom fallback content
- * <PermissionButton
- *   permission="staff:delete"
- *   fallback={<Text c="dimmed">Access Restricted</Text>}
- * >
- *   Delete Staff
- * </PermissionButton>
- * ```
  */
 export function PermissionButton({
     permission,

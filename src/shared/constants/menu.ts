@@ -13,35 +13,7 @@ export interface MenuItem {
     children?: MenuItem[];
 }
 
-export const MENU_ITEMS: MenuItem[] = [
-    {
-        key: "Home",
-        title: "Trang chủ",
-        path: "/",
-        icon: ICON_MAP.home,
-        roles: ["admin", "user"],
-    },
-    {
-        key: "OrderManagement",
-        title: "Quản lý đơn hàng",
-        path: "/order-management",
-        icon: ICON_MAP.order,
-        roles: ["admin", "user"],
-        children: [
-            {
-                key: "OrderBuy",
-                title: "Mua hàng",
-                path: "/order-management/order-buy",
-                roles: ["admin", "user"],
-            },
-            {
-                key: "OrderSell",
-                title: "Bán hàng",
-                path: "/order-management/order-sell",
-                roles: ["admin", "user"],
-            },
-        ],
-    },
+const TEMPLATE_PAGES: MenuItem[] = import.meta.env.VITE_SHOW_TEMPLATE_PAGES === "true" ? [
     {
         key: "template",
         title: "Template",
@@ -78,6 +50,13 @@ export const MENU_ITEMS: MenuItem[] = [
                 roles: ["admin", "user"],
             },
             {
+                key: "ag-grid",
+                title: "AgGrid",
+                icon: ICON_MAP.table,
+                path: "/template/ag-grid",
+                roles: ["admin", "user"],
+            },
+            {
                 key: "permission-button",
                 title: "Permission Button",
                 icon: ICON_MAP.lock,
@@ -86,4 +65,36 @@ export const MENU_ITEMS: MenuItem[] = [
             },
         ],
     },
+] : [];
+
+export const MENU_ITEMS: MenuItem[] = [
+    {
+        key: "home",
+        title: "Trang chủ",
+        path: "/",
+        icon: ICON_MAP.home,
+        roles: ["admin", "user"],
+    },
+    {
+        key: "order-management",
+        title: "Quản lý đơn hàng",
+        path: "/order-management",
+        icon: ICON_MAP.order,
+        roles: ["admin", "user"],
+        children: [
+            {
+                key: "order-buy",
+                title: "Mua hàng",
+                path: "/order-management/order-buy",
+                roles: ["admin", "user"],
+            },
+            {
+                key: "OrderSell",
+                title: "Bán hàng",
+                path: "/order-management/order-sell",
+                roles: ["admin", "user"],
+            },
+        ],
+    },
+    ...TEMPLATE_PAGES,
 ];

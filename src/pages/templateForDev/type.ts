@@ -25,3 +25,17 @@ export type ProductsResponse = {
     skip: number;
     limit: number;
 }
+
+export type JournalEntry = {
+    id: string;
+    date: string;
+    voucherNo: string;
+    account: string;
+    accountName: string;
+    debit: number;
+    credit: number;
+    currency: string;
+    exchangeRate: number;
+    costCenter: string;
+    note: string;
+};
