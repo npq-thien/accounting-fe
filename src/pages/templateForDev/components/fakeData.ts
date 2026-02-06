@@ -408,9 +408,9 @@ export const users = [
 export const journalEntries: JournalEntry[] = [
     {
         id: "JE001",
-        date: "2025-01-02",
+        date: "01/01/2025",
         voucherNo: "VN0001",
-        account: "111",
+        account: "a",
         accountName: "Cash",
         debit: 5000000,
         credit: 0,
@@ -421,7 +421,7 @@ export const journalEntries: JournalEntry[] = [
     },
     {
         id: "JE002",
-        date: "2025-01-02",
+        date: "02/01/2025",
         voucherNo: "VN0001",
         account: "411",
         accountName: "Owner Capital",
@@ -434,9 +434,9 @@ export const journalEntries: JournalEntry[] = [
     },
     {
         id: "JE003",
-        date: "2025-01-03",
+        date: "03/01/2025",
         voucherNo: "VN0002",
-        account: "642",
+        account: "x",
         accountName: "Office Expense",
         debit: 1200000,
         credit: 0,
@@ -447,7 +447,7 @@ export const journalEntries: JournalEntry[] = [
     },
     {
         id: "JE004",
-        date: "2025-01-03",
+        date: "03/01/2025",
         voucherNo: "VN0002",
         account: "111",
         accountName: "Cash",
@@ -460,7 +460,7 @@ export const journalEntries: JournalEntry[] = [
     },
     {
         id: "JE005",
-        date: "2025-01-04",
+        date: "04/01/2025",
         voucherNo: "VN0003",
         account: "131",
         accountName: "Accounts Receivable",
@@ -473,7 +473,7 @@ export const journalEntries: JournalEntry[] = [
     },
     {
         id: "JE006",
-        date: "2025-01-04",
+        date: "04/01/2025",
         voucherNo: "VN0003",
         account: "511",
         accountName: "Sales Revenue",
@@ -486,7 +486,7 @@ export const journalEntries: JournalEntry[] = [
     },
     {
         id: "JE007",
-        date: "2025-01-05",
+        date: "05/01/2025",
         voucherNo: "VN0004",
         account: "632",
         accountName: "Cost of Goods Sold",
@@ -499,7 +499,7 @@ export const journalEntries: JournalEntry[] = [
     },
     {
         id: "JE008",
-        date: "2025-01-05",
+        date: "05/01/2025",
         voucherNo: "VN0004",
         account: "156",
         accountName: "Inventory",
@@ -517,7 +517,7 @@ while (journalEntries.length < 30) {
     const i = journalEntries.length + 1;
     journalEntries.push({
         id: `JE${String(i).padStart(3, "0")}`,
-        date: "2025-01-06",
+        date: "06/01/2025",
         voucherNo: `VN${String(Math.floor(i / 2) + 1).padStart(4, "0")}`,
         account: i % 2 === 0 ? "111" : "642",
         accountName: i % 2 === 0 ? "Cash" : "General Expense",

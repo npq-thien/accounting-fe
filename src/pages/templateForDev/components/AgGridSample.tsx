@@ -5,16 +5,18 @@ import {
 } from "@/shared/components/common/CommonAgGridTable";
 import { Box, Group, Stack, Text, Title } from "@mantine/core";
 import type { GridApi } from "ag-grid-community";
-import { useMemo, useRef, useState } from "react";
-import { z } from "zod";
+import { useCallback, useMemo, useRef, useState } from "react";
 import type { JournalEntry } from "../type";
 import { journalEntries } from "./fakeData";
+import { convertStringToDateWithFormat } from "@/utils";
+import z from "zod";
 
 // Zod validation schemas
-const accountSchema = z.string().regex(/^\d{3,4}$/, "Must be 3-4 digits");
+const accountSchema = z.string().min(2, "Account must be at least 2 characters");
 
 export const AgGridSample = () => {
     const [rowData, setRowData] = useState<JournalEntry[]>(journalEntries);
+    const [totalsData, setTotalsData] = useState({ debit: 0, credit: 0 });
 
     const columnDefs: CommonAgGridColumn<JournalEntry>[] = [
         // Order column
@@ -30,23 +32,21 @@ export const AgGridSample = () => {
             editable: false,
             filter: false,
         },
-
         {
             headerName: "Date",
             field: "date",
             width: 110,
             editable: true,
-            type: "dateColumn",
-            cellEditor: "agDateCellEditor",
-            cellEditorParams: {
-                dateFormat: "DD/MM/YYYY",
-            },
-            cellRenderer: (params: any) => {
+            cellDataType: "date",
+            valueGetter: (params: any) => {
                 if (params.node?.rowPinned === "bottom") return "";
-                return params.value;
+                return new Date(params.data.date);
+            },
+            valueFormatter: (params: any) => {
+                if (params.node?.rowPinned === "bottom") return "";
+                return convertStringToDateWithFormat(params.data.date, "DD/MM/YYYY");
             },
         },
-
         {
             headerName: "Voucher No",
             field: "voucherNo",
@@ -74,7 +74,7 @@ export const AgGridSample = () => {
             headerName: "Account Name",
             field: "accountName",
             flex: 1,
-            editable: false,
+            editable: true,
             cellClass: "ag-text-muted",
             cellRenderer: (params: any) => {
                 if (params.node?.rowPinned === "bottom") return "";
@@ -86,7 +86,7 @@ export const AgGridSample = () => {
             headerName: "Debit",
             field: "debit",
             width: 140,
-            type: "numericColumn",
+            cellDataType: "number",
             valueParser: (p) => Number(p.newValue) || 0,
             valueFormatter: (p) => (p.value ? p.value.toLocaleString("vi-VN") : ""),
             cellStyle: (params: any) => {
@@ -97,8 +97,6 @@ export const AgGridSample = () => {
                 return style;
             },
             editable: (params: any) => params.node?.rowPinned !== "bottom",
-
-            // Excel-like rule
             onCellValueChanged: (params) => {
                 if (params.newValue > 0) {
                     params.node?.setDataValue("credit", 0);
@@ -110,7 +108,7 @@ export const AgGridSample = () => {
             headerName: "Credit",
             field: "credit",
             width: 140,
-            type: "numericColumn",
+            cellDataType: "number",
             valueParser: (p) => Number(p.newValue) || 0,
             valueFormatter: (p) => (p.value ? p.value.toLocaleString("vi-VN") : ""),
             cellStyle: (params: any) => {
@@ -156,7 +154,6 @@ export const AgGridSample = () => {
 
     const handleAddRow = () => {
         setRowData([
-            ...rowData,
             {
                 id: "",
                 date: "",
@@ -170,6 +167,7 @@ export const AgGridSample = () => {
                 costCenter: "",
                 note: "",
             },
+            ...rowData,
         ]);
     };
 
@@ -179,17 +177,14 @@ export const AgGridSample = () => {
         console.log(rowData);
     };
 
-    // Reactive totals calculation - updates when rowData state changes
+    // Totals row - uses separate state to avoid re-rendering grid
     const totalsRow = useMemo(() => {
-        const totalDebit = rowData.reduce((sum, row) => sum + (row.debit || 0), 0);
-        const totalCredit = rowData.reduce((sum, row) => sum + (row.credit || 0), 0);
-
         return [
             {
                 account: "TOTAL",
                 accountName: "",
-                debit: totalDebit,
-                credit: totalCredit,
+                debit: totalsData.debit,
+                credit: totalsData.credit,
                 note: "",
                 date: "",
                 voucherNo: "",
@@ -198,23 +193,27 @@ export const AgGridSample = () => {
                 costCenter: "",
             },
         ];
-    }, [rowData]);
+    }, [totalsData]);
 
-    // Sync React state with grid data when cell values change (including setDataValue)
-    const handleCellValueChanged = () => {
-        // Read current grid data and update React state to trigger recalculation
-        const updatedData: JournalEntry[] = [];
+    // Recalculate totals without re-rendering the grid
+    const recalculateTotals = useCallback(() => {
+        let totalDebit = 0;
+        let totalCredit = 0;
+
         gridApiRef.current?.forEachNode((node) => {
             if (node.data && !node.rowPinned) {
-                updatedData.push(node.data);
+                totalDebit += node.data.debit || 0;
+                totalCredit += node.data.credit || 0;
             }
         });
 
-        // Update state to trigger useMemo recalculation
-        if (updatedData.length > 0) {
-            setRowData(updatedData);
-        }
-    };
+        setTotalsData({ debit: totalDebit, credit: totalCredit });
+    }, []);
+
+    // Update totals without causing grid re-render
+    const handleCellValueChanged = useCallback(() => {
+        recalculateTotals();
+    }, [recalculateTotals]);
 
     return (
         <Box>
@@ -239,13 +238,12 @@ export const AgGridSample = () => {
                 <CommonAgGridTable
                     rowData={rowData}
                     columnDefs={columnDefs}
-                    height={400}
+                    height={600}
                     pinnedBottomRowData={totalsRow}
                     onCellValueChanged={handleCellValueChanged}
-                    gridOptions={{
-                        onGridReady: (params) => {
-                            gridApiRef.current = params.api;
-                        },
+                    onGridReady={(params) => {
+                        gridApiRef.current = params.api;
+                        recalculateTotals(); // Calculate initial totals
                     }}
                 />
             </Stack>

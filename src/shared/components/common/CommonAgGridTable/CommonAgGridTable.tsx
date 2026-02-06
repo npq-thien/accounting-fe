@@ -8,89 +8,111 @@
  * - Auto number/currency formatting
  */
 
-import { Box } from "@mantine/core";
+import { Box, useMantineColorScheme } from "@mantine/core";
 import type { CellValueChangedEvent, ColDef, GridOptions } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
-import { useCallback, useRef } from "react";
+import { useCallback, useMemo, useRef } from "react";
 import { z } from "zod";
+import "./AgGridStyles.css";
+import { ValidationTooltip } from "./ValidationTooltip";
 
-export interface CommonAgGridColumn<T = any> extends ColDef<T> {
+export interface CommonAgGridColumn<T> extends ColDef<T> {
     validation?: z.ZodSchema<any>;
 }
 
-export interface CommonAgGridTableProps<T = any> {
+export type CommonAgGridTableProps<T> = {
     rowData: T[];
     columnDefs: CommonAgGridColumn<T>[];
     onCellValueChanged?: (_event: CellValueChangedEvent<T>) => void;
     height?: number | string;
-    gridOptions?: GridOptions<T>;
-    pinnedBottomRowData?: any[];
-}
+    validation?: z.ZodSchema<any>;
+} & GridOptions<T>;
 
 export function CommonAgGridTable<T = any>(props: CommonAgGridTableProps<T>) {
-    const {
-        rowData,
-        columnDefs,
-        onCellValueChanged,
-        height = 500,
-        gridOptions,
-        pinnedBottomRowData,
-    } = props;
+    const { rowData, columnDefs, onCellValueChanged, height = 500, ...restProps } = props;
+    const { colorScheme } = useMantineColorScheme();
 
     const gridRef = useRef<AgGridReact<T>>(null);
     const validationErrors = useRef<Map<string, string>>(new Map());
 
-    // Validate and handle cell changes
+    // Determine theme class and data attribute based on color scheme
+    const themeClass = useMemo(() => {
+        return "ag-theme-quartz";
+    }, []);
+
+    // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+    const agColumnDefs: ColDef<T>[] = columnDefs.map(({ validation, ...colDef }) => colDef);
+
     const handleCellValueChanged = useCallback(
         (event: CellValueChangedEvent<T>) => {
-            const { colDef, newValue, node } = event;
-            const column = colDef as CommonAgGridColumn<T>;
+            const field = event.colDef.field;
+            if (!field || !event.node) return;
 
-            // Validate if schema exists
-            if (column.validation && node && (colDef as any).field) {
-                const key = `${node.id}_${(colDef as any).field}`;
-                try {
-                    column.validation.parse(newValue);
-                    validationErrors.current.delete(key);
-                } catch (error) {
-                    if (error instanceof z.ZodError) {
-                        const message = error.issues.map((e) => e.message).join(", ");
-                        validationErrors.current.set(key, message);
-                        console.warn(`Validation error at ${key}:`, message);
-                    }
-                }
+            const column = columnDefs.find((c) => c.field === field);
+            if (!column?.validation) return;
+
+            const key = `${event.node.id}_${field}`;
+            const result = column.validation.safeParse(event.newValue);
+
+            if (!result.success) {
+                validationErrors.current.set(
+                    key,
+                    result.error.issues.map((i) => i.message).join(", ")
+                );
+                // event.node.setDataValue(field, event.oldValue);
+            } else {
+                validationErrors.current.delete(key);
             }
 
-            if (onCellValueChanged) {
-                onCellValueChanged(event);
-            }
+            event.api.refreshCells({
+                rowNodes: [event.node],
+                columns: [field],
+                force: true,
+            });
+
+            onCellValueChanged?.(event);
         },
-        [onCellValueChanged]
+        [columnDefs, onCellValueChanged]
     );
 
     return (
-        <Box style={{ height, width: "100%" }}>
+        <Box
+            style={{ height, width: "100%" }}
+            className={themeClass}
+            data-ag-theme={colorScheme === "dark" ? "dark" : "light"}>
             <AgGridReact<T>
                 ref={gridRef}
                 rowData={rowData}
-                columnDefs={columnDefs}
-                pinnedBottomRowData={pinnedBottomRowData}
+                columnDefs={agColumnDefs}
                 defaultColDef={{
                     editable: true,
                     sortable: true,
                     filter: true,
                     resizable: true,
+                    enableCellChangeFlash: true,
+
+                    cellClassRules: {
+                        "ag-cell-invalid": (params) => {
+                            const key = `${params.node?.id}_${params.colDef.field}`;
+                            return validationErrors.current.has(key);
+                        },
+                    },
+
+                    tooltipValueGetter: (params) => {
+                        const key = `${params.node?.id}_${(params.colDef as CommonAgGridColumn<T>).field || ""}`;
+                        return validationErrors.current.get(key);
+                    },
+                    tooltipComponent: ValidationTooltip,
                 }}
+                tooltipShowDelay={0}
+                tooltipHideDelay={2000}
                 pagination={true}
-                paginationPageSize={20}
+                paginationPageSize={50}
                 paginationPageSizeSelector={[20, 50, 100]}
                 onCellValueChanged={handleCellValueChanged}
-                singleClickEdit={true}
-                stopEditingWhenCellsLoseFocus={true}
-                enterNavigatesVertically={true}
-                enterNavigatesVerticallyAfterEdit={true}
+                stopEditingWhenCellsLoseFocus={false}
                 undoRedoCellEditing={true}
-                {...gridOptions}
+                {...restProps}
             />
         </Box>
     );
