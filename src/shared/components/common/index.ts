@@ -7,6 +7,7 @@ export * from "./CommonDataTable/CommonDataTable";
 export * from "./CommonDateInput/CommonDateInput";
 export * from "./CommonIcon/CommonIcon";
 export * from "./CommonSelect/CommonSelect";
+export * from "./CommonTabs";
 export * from "./CommonTextarea/CommonTextarea";
 export * from "./CommonTextInput/CommonTextInput";
 export * from "./FormAutocomplete/FormAutocomplete";

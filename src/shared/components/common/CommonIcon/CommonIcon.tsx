@@ -1,11 +1,10 @@
 // CommonIcon.tsx
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ICON_SIZE } from "@/styles/commonStyles";
 import { Box, type BoxProps, useMantineTheme } from "@mantine/core";
-
-import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import type { Icon } from "@tabler/icons-react";
 
 type Props = {
-    icon: IconDefinition;
+    icon: Icon;
     size?: number;
     color?: string;
     backgroundColor?: string;
@@ -14,17 +13,16 @@ type Props = {
 export function CommonIcon(props: Props) {
     const theme = useMantineTheme();
     const {
-        icon,
-        size = 16,
+        icon: IconComponent,
+        size = ICON_SIZE,
         color = theme.colors.gray[6],
         backgroundColor = "transparent",
         ...rest
     } = props;
 
-    if (!icon) {
-        console.warn("Icon is not defined, please define in ICON_MAP")
+    if (!IconComponent) {
+        console.warn("Icon is not defined, please define in ICON_MAP");
     }
-
 
     return (
         <Box
@@ -33,13 +31,12 @@ export function CommonIcon(props: Props) {
                 display: "inline-flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontSize: size,
                 color: color,
                 padding: 4,
                 backgroundColor: backgroundColor,
             }}
             {...rest}>
-            <FontAwesomeIcon icon={icon} />
+            <IconComponent size={size} />
         </Box>
     );
 }

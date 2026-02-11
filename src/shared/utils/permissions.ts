@@ -1,4 +1,4 @@
-import type { AuthUser } from "@/app/providers/auth/AuthContext";
+import type { User } from "@/app/providers/auth/AuthContext";
 import { ROLE_PERMISSIONS, type Permission } from "@/shared/constants/permissions";
 
 /**
@@ -7,7 +7,7 @@ import { ROLE_PERMISSIONS, type Permission } from "@/shared/constants/permission
  * @param permission - The permission to check
  * @returns true if user has the permission, false otherwise
  */
-export function hasPermission(user: AuthUser | null, permission: Permission): boolean {
+export function hasPermission(user: User | null, permission: Permission): boolean {
     if (!user) return false;
 
     const userPermissions = ROLE_PERMISSIONS[user.role] || [];
@@ -20,7 +20,7 @@ export function hasPermission(user: AuthUser | null, permission: Permission): bo
  * @param permissions - Array of permissions to check
  * @returns true if user has all permissions, false otherwise
  */
-export function hasAllPermissions(user: AuthUser | null, permissions: Permission[]): boolean {
+export function hasAllPermissions(user: User | null, permissions: Permission[]): boolean {
     if (!user || !permissions.length) return false;
 
     return permissions.every((permission) => hasPermission(user, permission));
@@ -32,7 +32,7 @@ export function hasAllPermissions(user: AuthUser | null, permissions: Permission
  * @param permissions - Array of permissions to check
  * @returns true if user has at least one permission, false otherwise
  */
-export function hasAnyPermission(user: AuthUser | null, permissions: Permission[]): boolean {
+export function hasAnyPermission(user: User | null, permissions: Permission[]): boolean {
     if (!user || !permissions.length) return false;
 
     return permissions.some((permission) => hasPermission(user, permission));
@@ -43,7 +43,7 @@ export function hasAnyPermission(user: AuthUser | null, permissions: Permission[
  * @param user - The authenticated user
  * @returns Array of permissions the user has
  */
-export function getUserPermissions(user: AuthUser | null): Permission[] {
+export function getUserPermissions(user: User | null): Permission[] {
     if (!user) return [];
 
     return ROLE_PERMISSIONS[user.role] || [];
@@ -56,7 +56,7 @@ export function getUserPermissions(user: AuthUser | null): Permission[] {
  * @param action - The action/permission to check
  * @returns true if user can perform the action, false otherwise
  */
-export function canPerformAction(user: AuthUser | null, action: Permission): boolean {
+export function canPerformAction(user: User | null, action: Permission): boolean {
     return hasPermission(user, action);
 }
 

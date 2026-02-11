@@ -1,13 +1,13 @@
 import { useLocalStorage } from "@mantine/hooks";
 
-import { AuthContext, type AuthUser } from "./AuthContext";
+import { AuthContext, type User } from "./AuthContext";
 
 import type { ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
     const navigate = useNavigate();
-    const [user, setUser] = useLocalStorage<AuthUser | null>({
+    const [user, setUser] = useLocalStorage<User | null>({
         key: 'auth-user',
         defaultValue: null,
         getInitialValueInEffect: false, // Read from localStorage immediately, not in useEffect
@@ -19,7 +19,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
         // TODO: Implement actual authentication logic
         if (username === "admin" && password === "admin") {
-            const loggedInUser: AuthUser = {
+            const loggedInUser: User = {
                 username: "admin",
                 role: "admin",
             };
@@ -27,7 +27,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             navigate("/");
             return true;
         } else if (username === "user" && password === "user") {
-            const loggedInUser: AuthUser = {
+            const loggedInUser: User = {
                 username: "user",
                 role: "user",
             };

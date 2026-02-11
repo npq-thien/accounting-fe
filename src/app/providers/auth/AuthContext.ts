@@ -2,13 +2,13 @@ import { createContext } from "react";
 
 import type { UserRole } from "@/shared/constants";
 
-export interface AuthUser {
+export interface User {
     username: string;
     role: UserRole;
 }
 
 export interface AuthContextValue {
-    user: AuthUser | null;
+    user: User | null;
     login: (_username: string, _password: string) => Promise<boolean>;
     logout: () => void;
     isInitializing: boolean;

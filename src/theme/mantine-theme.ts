@@ -1,26 +1,33 @@
-import { virtualColor, type MantineColorsTuple, type MantineThemeOverride } from "@mantine/core";
+import { type MantineColorsTuple, type MantineThemeOverride } from "@mantine/core";
 // import { COLORS } from './tokens/colors';
 // import { SPACING } from './tokens/spacing';
 // import { TYPOGRAPHY } from './tokens/typography';
 
 // Default colors: https://yeun.github.io/open-color/
 const colors: Record<string, MantineColorsTuple> = {
-    primary: virtualColor({
-        name: "primary",
-        dark: "cyan",
-        light: "pink",
-    }),
-    deepBlue: [
-        "#eef3ff",
-        "#dce4f5",
-        "#b9c7e2",
-        "#94a8d0",
-        "#748dc1",
-        "#5f7cb8",
-        "#5474b4",
-        "#44639f",
-        "#39588f",
-        "#2d4b81",
+    primary: [
+        "#ebebfe",
+        "#d2d2f9",
+        "#a0a0f5",
+        "#6d6cf2",
+        "#4440f0",
+        "#2d25f0",
+        "#2318f0",
+        "#1a0fd6",
+        "#130cbf",
+        "#03045f"
+    ],
+    secondary: [
+        "#ffeee4",
+        "#ffdcce",
+        "#fcb89f",
+        "#f8926b",
+        "#f57240",
+        "#f35a20",
+        "#f35214",
+        "#d94208",
+        "#c23904",
+        "#a92e00"
     ],
     red: [
         "#ffe9f2",
@@ -34,25 +41,12 @@ const colors: Record<string, MantineColorsTuple> = {
         "#c00043",
         "#a90039",
     ],
-    "bright-pink": [
-        "#F0BBDD",
-        "#ED9BCF",
-        "#EC7CC3",
-        "#ED5DB8",
-        "#F13EAF",
-        "#F71FA7",
-        "#FF00A1",
-        "#E00890",
-        "#C50E82",
-        "#AD1374",
-    ],
 };
 
 
 export const theme: MantineThemeOverride = {
     colors: colors as Record<string, MantineColorsTuple>,
-    // TODO: define primary color
-    // primaryColor: "yellow",
+    primaryColor: "primary",
     // TODO: This font not loaded bold correctly. Have to import through html
     // fontFamily: "Noto Sans, sans-serif",
     spacing: {
@@ -68,6 +62,13 @@ export const theme: MantineThemeOverride = {
         md: "64em",
         lg: "74em",
         xl: "90em",
+    },
+    fontSizes: {
+        xs: "12px",
+        sm: "14px",
+        md: "16px",
+        lg: "18px",
+        xl: "20px",
     },
 
     defaultRadius: "sm",

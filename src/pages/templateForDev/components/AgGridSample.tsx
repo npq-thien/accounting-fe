@@ -23,7 +23,6 @@ export const AgGridSample = () => {
         {
             headerName: "No",
             width: 60,
-            pinned: "left",
             valueGetter: (params) => {
                 // Show empty for pinned bottom row
                 if (params.node?.rowPinned === "bottom") return "";

@@ -30,7 +30,6 @@
     --ag-range-selection-background-color: rgba(77, 171, 247, 0.2);
     --ag-range-selection-border-color: #4dabf7;
     --ag-checkbox-background-color: #25262b;
-    --ag-checkbox-checked-color: #4dabf7;
     --ag-checkbox-unchecked-color: #868e96;
     --ag-input-border-color: #373a40;
     --ag-input-border-color-invalid: #fa5252;
@@ -44,7 +43,7 @@
     --ag-popup-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
-[data-ag-theme="dark"] .ag-cell-invalid {
+/* [data-ag-theme="dark"] .ag-cell-invalid {
     background-color: rgba(250, 82, 82, 0.2) !important;
     border: 1px solid #fa5252;
 }
@@ -58,4 +57,4 @@
     font-size: 12px;
     max-width: 240px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-}
+} */

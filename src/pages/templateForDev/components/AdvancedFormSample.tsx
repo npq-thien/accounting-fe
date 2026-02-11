@@ -1,25 +1,17 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-    Accordion,
-    Box,
-    Button,
-    Divider,
-    Fieldset,
-    Group,
-    Stack,
-    Text,
-    Title
-} from "@mantine/core";
+import { Box, Button, Divider, Fieldset, Group, Stack, Text, Title } from "@mantine/core";
 import { Form, FormProvider, useFieldArray, useForm, type SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 
 import { notify } from "@/app/toast/toast";
 import {
+    CommonTabs,
     FormCheckbox,
     FormDateInput,
     FormSelect,
     FormTextInput,
     FormTextarea,
+    type CommonTabItem,
 } from "@/shared/components/common";
 import { FormNumberInput } from "@/shared/components/common/FormNumberInput/FormNumberInput";
 
@@ -151,6 +143,60 @@ const defaultTodoForm: TodoForm = {
 };
 
 export function AdvancedFormSample() {
+    const tabItems: CommonTabItem[] = [
+        {
+            value: "contact",
+            label: "Simple Contact Form",
+            children: <ContactFormExample />,
+        },
+        {
+            value: "product",
+            label: "Product Form",
+            children: <ProductFormExample />,
+            hasOptions: true,
+            options: [
+                {
+                    label: "Export Product Template",
+                    onClick: () => notify.info("Export template clicked"),
+                },
+                {
+                    label: "Import Products",
+                    onClick: () => notify.info("Import products clicked"),
+                },
+                {
+                    label: "Bulk Edit",
+                    onClick: () => notify.info("Bulk edit clicked"),
+                },
+            ],
+        },
+        {
+            value: "registration",
+            label: "User Registration",
+            children: <RegistrationFormExample />,
+        },
+        {
+            value: "survey",
+            label: "Survey Form",
+            children: <SurveyFormExample />,
+            hasOptions: true,
+            options: [
+                {
+                    label: "View Survey Results",
+                    onClick: () => notify.info("View results clicked"),
+                },
+                {
+                    label: "Export Responses",
+                    onClick: () => notify.info("Export responses clicked"),
+                },
+            ],
+        },
+        {
+            value: "todo",
+            label: "Dynamic Todo List",
+            children: <TodoFormExample />,
+        },
+    ];
+
     return (
         <Box>
             <Title order={2} mb="lg">
@@ -158,55 +204,10 @@ export function AdvancedFormSample() {
             </Title>
             <Text c="dimmed" mb="xl">
                 This page demonstrates various form patterns using React Hook Form, Zod validation,
-                and Mantine components.
+                and Mantine components. Some tabs have additional options (click the chevron).
             </Text>
 
-            <Accordion variant="separated" defaultValue="contact">
-                <Accordion.Item value="contact">
-                    <Accordion.Control>
-                        <Title order={4}>1. Simple Contact Form</Title>
-                    </Accordion.Control>
-                    <Accordion.Panel>
-                        <ContactFormExample />
-                    </Accordion.Panel>
-                </Accordion.Item>
-
-                <Accordion.Item value="product">
-                    <Accordion.Control>
-                        <Title order={4}>2. Product Form with Array Fields</Title>
-                    </Accordion.Control>
-                    <Accordion.Panel>
-                        <ProductFormExample />
-                    </Accordion.Panel>
-                </Accordion.Item>
-
-                <Accordion.Item value="registration">
-                    <Accordion.Control>
-                        <Title order={4}>3. User Registration with Validation</Title>
-                    </Accordion.Control>
-                    <Accordion.Panel>
-                        <RegistrationFormExample />
-                    </Accordion.Panel>
-                </Accordion.Item>
-
-                <Accordion.Item value="survey">
-                    <Accordion.Control>
-                        <Title order={4}>4. Survey Form with Multiple Choices</Title>
-                    </Accordion.Control>
-                    <Accordion.Panel>
-                        <SurveyFormExample />
-                    </Accordion.Panel>
-                </Accordion.Item>
-
-                <Accordion.Item value="todo">
-                    <Accordion.Control>
-                        <Title order={4}>5. Dynamic Todo List (useFieldArray)</Title>
-                    </Accordion.Control>
-                    <Accordion.Panel>
-                        <TodoFormExample />
-                    </Accordion.Panel>
-                </Accordion.Item>
-            </Accordion>
+            <CommonTabs items={tabItems} defaultValue="contact" />
         </Box>
     );
 }
@@ -225,7 +226,7 @@ function ContactFormExample() {
     return (
         <FormProvider {...methods}>
             <Form onSubmit={methods.handleSubmit(onSubmit)}>
-                <Fieldset legend="Contact Information">
+                <Fieldset legend="Contact Information" mt="lg">
                     <Stack>
                         <FormTextInput
                             name="name"
@@ -281,7 +282,7 @@ function ProductFormExample() {
     return (
         <FormProvider {...methods}>
             <Form onSubmit={methods.handleSubmit(onSubmit)}>
-                <Fieldset legend="Product Information">
+                <Fieldset legend="Product Information" mt="lg">
                     <Stack>
                         <FormTextInput
                             name="title"
@@ -381,7 +382,7 @@ function RegistrationFormExample() {
     return (
         <FormProvider {...methods}>
             <Form onSubmit={methods.handleSubmit(onSubmit)}>
-                <Fieldset legend="Account Information">
+                <Fieldset legend="Account Information" mt="lg">
                     <Stack>
                         <FormTextInput
                             name="username"
@@ -480,7 +481,7 @@ function SurveyFormExample() {
     return (
         <FormProvider {...methods}>
             <Form onSubmit={methods.handleSubmit(onSubmit)}>
-                <Fieldset legend="Customer Satisfaction Survey">
+                <Fieldset legend="Customer Satisfaction Survey" mt="lg">
                     <Stack>
                         <FormSelect
                             name="satisfaction"
@@ -574,7 +575,7 @@ function TodoFormExample() {
     return (
         <FormProvider {...methods}>
             <Form onSubmit={methods.handleSubmit(onSubmit)}>
-                <Fieldset legend="Todo List Manager">
+                <Fieldset legend="Todo List Manager" mt="lg">
                     <Stack>
                         {fields.map((field, index) => (
                             <Fieldset key={field.id} legend={`Todo ${index + 1}`}>

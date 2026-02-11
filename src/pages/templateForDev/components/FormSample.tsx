@@ -9,12 +9,14 @@ import type { SimpleForm } from "../type";
 import { notify } from "@/app/toast/toast";
 import {
     CommonButton,
+    CommonIcon,
     CommonTextInput,
     FormDateInput,
     FormSelect,
     FormTextInput,
-    loader,
+    loader
 } from "@/shared/components/common";
+import { ICON_MAP } from "@/shared/constants/icons";
 
 const defaultSimpleForm: SimpleForm = {
     email: "",
@@ -64,6 +66,7 @@ export const FormSample = () => {
                                 label="Email Address"
                                 placeholder="Enter your email"
                                 type="email"
+                                leftSection={<CommonIcon icon={ICON_MAP.home} />}
                                 withAsterisk
                             />
                             <FormTextInput

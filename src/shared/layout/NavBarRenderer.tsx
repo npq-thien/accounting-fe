@@ -1,4 +1,4 @@
-import { NavLink, Tooltip } from "@mantine/core";
+import { NavLink, Tooltip, useMantineColorScheme } from "@mantine/core";
 import { CommonButton, CommonIcon } from "../components";
 import type { MenuItem } from "../constants/menu";
 import { BORDER_RADIUS_MENU_NAVBAR } from "@/styles/commonStyles";
@@ -21,7 +21,17 @@ function MenuItemRenderer({
     onClick,
     isExpanded,
 }: MenuItemProps) {
-    const icon = <CommonIcon icon={item.icon ?? ICON_MAP.defaultMenuIcon} />;
+    const { colorScheme } = useMantineColorScheme();
+    const iconColor = colorScheme === "dark" ? "gray" : "black";
+    const iconSize = 24;
+
+    const icon = (
+        <CommonIcon
+            icon={item.icon ?? ICON_MAP.defaultMenuIcon}
+            color={iconColor}
+            size={iconSize}
+        />
+    );
 
     // MOBILE → always full NavLink
     if (isMobile) {
@@ -61,7 +71,10 @@ function MenuItemRenderer({
             leftSection={icon}
             rightSection={
                 item.children && (
-                    <CommonIcon icon={isExpanded ? ICON_MAP.chevronDown : ICON_MAP.chevronRight} />
+                    <CommonIcon
+                        icon={isExpanded ? ICON_MAP.chevronDown : ICON_MAP.chevronRight}
+                        color={iconColor}
+                    />
                 )
             }
             active={isActive}

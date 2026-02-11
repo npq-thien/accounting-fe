@@ -30,11 +30,16 @@ export function PermissionButtonSample() {
                     <Text c="dimmed" size="sm">
                         Centralized permission system for button access control
                     </Text>
-                    <Paper p="sm" mt="sm" bg="blue.0" style={{ borderLeft: "3px solid var(--mantine-color-blue-6)" }}>
+                    <Paper
+                        p="sm"
+                        mt="sm"
+                        bg="blue.0"
+                        style={{ borderLeft: "3px solid var(--mantine-color-blue-6)" }}>
                         <Group gap="xs">
                             <CommonIcon icon={ICON_MAP.info} />
                             <Text size="sm">
-                                <strong>Current User:</strong> {user?.username || "Guest"} ({user?.role || "none"})
+                                <strong>Current User:</strong> {user?.username || "Guest"} (
+                                {user?.role || "none"})
                             </Text>
                         </Group>
                     </Paper>
@@ -95,7 +100,7 @@ export function PermissionButtonSample() {
                         </Group>
 
                         <Group gap="md">
-                            <PermissionButton permission="order:delete" color="red">
+                            <PermissionButton permission="order:delete" color="green">
                                 Delete Order
                             </PermissionButton>
                             <Text size="sm" c="dimmed">
@@ -104,7 +109,7 @@ export function PermissionButtonSample() {
                         </Group>
 
                         <Group gap="md">
-                            <PermissionButton permission="staff:create" color="green">
+                            <PermissionButton permission="staff:create" color="secondary">
                                 Add Staff
                             </PermissionButton>
                             <Text size="sm" c="dimmed">
@@ -113,7 +118,9 @@ export function PermissionButtonSample() {
                         </Group>
 
                         <Group gap="md">
-                            <PermissionButton permission="finance:approve-transactions" color="orange">
+                            <PermissionButton
+                                permission="finance:approve-transactions"
+                                color="orange">
                                 Approve Transaction
                             </PermissionButton>
                             <Text size="sm" c="dimmed">
@@ -276,7 +283,8 @@ export function PermissionButtonSample() {
                                 fallback={
                                     <Paper p="xs" bg="yellow.2" withBorder>
                                         <Text size="xs">
-                                            <strong>Refund access restricted.</strong> Please contact finance team.
+                                            <strong>Refund access restricted.</strong> Please
+                                            contact finance team.
                                         </Text>
                                     </Paper>
                                 }>
@@ -305,10 +313,18 @@ export function PermissionButtonSample() {
                                 <PermissionButton permission="order:view" size="xs" variant="light">
                                     View
                                 </PermissionButton>
-                                <PermissionButton permission="order:edit" size="xs" variant="light" color="blue">
+                                <PermissionButton
+                                    permission="order:edit"
+                                    size="xs"
+                                    variant="light"
+                                    color="blue">
                                     Edit
                                 </PermissionButton>
-                                <PermissionButton permission="order:delete" size="xs" variant="light" color="red">
+                                <PermissionButton
+                                    permission="order:delete"
+                                    size="xs"
+                                    variant="light"
+                                    color="red">
                                     Delete
                                 </PermissionButton>
                                 <PermissionButton
@@ -336,13 +352,24 @@ export function PermissionButtonSample() {
                                 Invoice Actions
                             </Title>
                             <Group gap="sm">
-                                <PermissionButton permission="invoice:view" size="xs" variant="outline">
+                                <PermissionButton
+                                    permission="invoice:view"
+                                    size="xs"
+                                    variant="outline">
                                     View Invoice
                                 </PermissionButton>
-                                <PermissionButton permission="invoice:create" size="xs" variant="outline" color="green">
+                                <PermissionButton
+                                    permission="invoice:create"
+                                    size="xs"
+                                    variant="outline"
+                                    color="green">
                                     Create Invoice
                                 </PermissionButton>
-                                <PermissionButton permission="invoice:send" size="xs" variant="outline" color="blue">
+                                <PermissionButton
+                                    permission="invoice:send"
+                                    size="xs"
+                                    variant="outline"
+                                    color="blue">
                                     Send Invoice
                                 </PermissionButton>
                                 <PermissionButton
@@ -365,13 +392,24 @@ export function PermissionButtonSample() {
                                 <PermissionButton permission="payment:view" size="xs">
                                     View Payments
                                 </PermissionButton>
-                                <PermissionButton permission="payment:create" size="xs" color="teal">
+                                <PermissionButton
+                                    permission="payment:create"
+                                    size="xs"
+                                    color="teal">
                                     Record Payment
                                 </PermissionButton>
-                                <PermissionButton permission="payment:approve" size="xs" color="green" showDisabled>
+                                <PermissionButton
+                                    permission="payment:approve"
+                                    size="xs"
+                                    color="green"
+                                    showDisabled>
                                     Approve Payment
                                 </PermissionButton>
-                                <PermissionButton permission="payment:refund" size="xs" color="orange" showDisabled>
+                                <PermissionButton
+                                    permission="payment:refund"
+                                    size="xs"
+                                    color="orange"
+                                    showDisabled>
                                     Process Refund
                                 </PermissionButton>
                             </Group>
@@ -392,19 +430,29 @@ export function PermissionButtonSample() {
                         <Stack gap="xs">
                             <Text size="sm">
                                 <Code>hasPermission('order:delete')</Code> ={" "}
-                                <strong>{hasPermission("order:delete") ? "✅ true" : "❌ false"}</strong>
+                                <strong>
+                                    {hasPermission("order:delete") ? "✅ true" : "❌ false"}
+                                </strong>
                             </Text>
                             <Text size="sm">
                                 <Code>hasPermission('staff:create')</Code> ={" "}
-                                <strong>{hasPermission("staff:create") ? "✅ true" : "❌ false"}</strong>
+                                <strong>
+                                    {hasPermission("staff:create") ? "✅ true" : "❌ false"}
+                                </strong>
                             </Text>
                             <Text size="sm">
                                 <Code>hasPermission('finance:approve-transactions')</Code> ={" "}
-                                <strong>{hasPermission("finance:approve-transactions") ? "✅ true" : "❌ false"}</strong>
+                                <strong>
+                                    {hasPermission("finance:approve-transactions")
+                                        ? "✅ true"
+                                        : "❌ false"}
+                                </strong>
                             </Text>
                             <Text size="sm">
                                 <Code>hasPermission('invoice:create')</Code> ={" "}
-                                <strong>{hasPermission("invoice:create") ? "✅ true" : "❌ false"}</strong>
+                                <strong>
+                                    {hasPermission("invoice:create") ? "✅ true" : "❌ false"}
+                                </strong>
                             </Text>
                         </Stack>
                     </Paper>
@@ -467,4 +515,3 @@ if (hasPermission('order:delete')) {
         </Box>
     );
 }
-

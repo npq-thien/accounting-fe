@@ -1,0 +1,39 @@
+.tabWithOptions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border: 1px solid transparent;
+    border-bottom: 2px solid transparent;
+    background-color: transparent;
+    cursor: pointer;
+    transition: all 150ms ease;
+    font-size: 14px;
+    font-weight: 500;
+    position: relative;
+}
+
+.tabWithOptions:hover {
+    border-bottom-color: var(--mantine-color-gray-3);
+}
+
+.tabWithOptions[data-active] {
+    border-bottom-color: var(--mantine-color-primary-6);
+    color: var(--mantine-color-primary-6);
+}
+
+.tabWithOptions[data-active]:hover {
+    /* background-color: var(--mantine-color-primary-0); */
+}
+
+.tabWithOptions[data-active] .chevron {
+    color: var(--mantine-color-primary-6);
+}
+
+.tabText {
+    font-weight: 500;
+}
+
+.tabText[data-active] {
+    color: var(--mantine-color-primary-6);
+}

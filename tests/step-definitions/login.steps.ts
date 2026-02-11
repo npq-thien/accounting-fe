@@ -2,13 +2,13 @@ import { Before, Given, Then, When } from '@cucumber/cucumber';
 import assert from 'assert';
 
 // Mock AuthProvider functionality for testing
-interface AuthUser {
+interface User {
   username: string;
   role: string;
 }
 
 interface TestWorld {
-  user: AuthUser | null;
+  user: User | null;
   loginSuccess: boolean;
   error: string | null;
 }
@@ -43,7 +43,7 @@ function logout(): void {
   testWorld.user = null;
 }
 
-function getCurrentUser(): AuthUser | null {
+function getCurrentUser(): User | null {
   return testWorld.user;
 }
 
