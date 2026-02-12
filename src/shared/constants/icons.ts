@@ -11,6 +11,7 @@ import {
     IconClipboardList,
     IconCoins,
     IconCurrencyDollar,
+    IconEdit,
     IconFileDollar,
     IconFileText,
     IconGraph,
@@ -26,6 +27,7 @@ import {
     IconStar,
     IconSunHighFilled,
     IconTable,
+    IconTrash,
     IconUsers,
     IconX,
     type Icon
@@ -61,6 +63,8 @@ export const ICON_MAP = {
     report: IconGraph,
     category: IconCategory,
     logout: IconLogout,
+    edit: IconEdit,
+    delete: IconTrash,
 } as const satisfies Record<string, Icon>;
 
 export type IconKey = keyof typeof ICON_MAP;

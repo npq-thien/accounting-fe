@@ -13,6 +13,7 @@ export * from "./CommonTextInput/CommonTextInput";
 export * from "./FormAutocomplete/FormAutocomplete";
 export * from "./FormCheckbox/FormCheckbox";
 export * from "./FormDateInput/FormDateInput";
+export * from "./FormNumberInput/FormNumberInput";
 export * from "./FormSelect/FormSelect";
 export * from "./FormTextarea/FormTextarea";
 export * from "./FormTextInput/FormTextInput";

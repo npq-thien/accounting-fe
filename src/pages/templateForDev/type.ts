@@ -29,13 +29,10 @@ export type ProductsResponse = {
 export type JournalEntry = {
     id: string;
     date: string;
-    voucherNo: string;
+    documentNo: string;
     account: string;
-    accountName: string;
-    debit: number;
-    credit: number;
-    currency: string;
-    exchangeRate: number;
-    costCenter: string;
+    amount: number;
+    department: string;
+    property: string[];
     note: string;
 };

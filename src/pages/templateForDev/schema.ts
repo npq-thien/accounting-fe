@@ -2,6 +2,30 @@ import { z } from "zod";
 
 import { validationMessages as vm } from "@/shared/constants/validationMessages";
 
+// Journal Entry Form Schema
+export const JournalEntryFormSchema = z.object({
+    id: z.string(),
+    date: z
+        .string()
+        .min(1, vm.required)
+        .refine((date) => {
+            const selectedDate = new Date(date);
+            return !isNaN(selectedDate.getTime());
+        }, "Invalid date format"),
+    
+    documentNo: z
+        .string()
+        .min(5, vm.min(5)),
+    
+    account: z.string(),
+    amount: z.number(),
+    department: z.string(),
+    property: z.array(z.string()),
+    note: z.string(),
+});
+
+export type JournalEntryForm = z.infer<typeof JournalEntryFormSchema>;
+
 export const SimpleFormSchema = z.object({
     email: z.email(vm.email).min(1, vm.required),
 

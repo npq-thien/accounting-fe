@@ -1,5 +1,5 @@
 import { ICON_MAP } from "@/shared/constants/icons";
-import { Box, Menu, Tabs, type TabsProps, UnstyledButton } from "@mantine/core";
+import { Flex, Menu, Tabs, type TabsProps, UnstyledButton } from "@mantine/core";
 import { type ReactNode, useState } from "react";
 import { CommonIcon } from "../CommonIcon/CommonIcon";
 import classes from "./CommonTabs.module.css";
@@ -47,16 +47,20 @@ export function CommonTabs({ items, ...tabsProps }: CommonTabsProps) {
                                         className={`${classes.tabWithOptions} ${isActive ? classes.tabActive : ""}`}
                                         data-active={isActive || undefined}
                                         onClick={() => handleTabChange(item.value)}>
-                                        <Box className={classes.tabLabel}>{item.label}</Box>
-                                        <CommonIcon
-                                            icon={ICON_MAP.chevronDown}
-                                            size={16}
-                                            style={{
-                                                color: isActive
-                                                    ? "var(--mantine-color-primary-6)"
-                                                    : "var(--mantine-color-gray-6)",
-                                            }}
-                                        />
+                                        <Flex justify={{ sm: "center" }}>
+                                            <Flex>
+                                                {item.label}
+
+                                                <CommonIcon
+                                                    icon={ICON_MAP.chevronDown}
+                                                    color={
+                                                        isActive
+                                                            ? "var(--mantine-color-primary-6)"
+                                                            : "var(--mantine-color-gray-6)"
+                                                    }
+                                                />
+                                            </Flex>
+                                        </Flex>
                                     </UnstyledButton>
                                 </Menu.Target>
                                 <Menu.Dropdown>

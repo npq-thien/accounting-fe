@@ -13,7 +13,7 @@ export type CommonActionIconProps = ButtonProps &
 export const CommonActionIcon = ({ icon: IconComponent, ...rest }: CommonActionIconProps) => {
     return (
         <ActionIcon size="lg" variant="subtle" {...rest}>
-            <IconComponent size={ICON_SIZE} stroke={2} />
+            <IconComponent size={ICON_SIZE * 1.2} stroke={2} />
         </ActionIcon>
     );
 };

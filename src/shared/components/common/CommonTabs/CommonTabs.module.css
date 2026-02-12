@@ -13,18 +13,18 @@
     position: relative;
 }
 
-.tabWithOptions:hover {
-    border-bottom-color: var(--mantine-color-gray-3);
-}
+/* .tabWithOptions:hover {
+    background-color: var(--mantine-color-gray-1);
+} */
 
 .tabWithOptions[data-active] {
     border-bottom-color: var(--mantine-color-primary-6);
     color: var(--mantine-color-primary-6);
 }
 
-.tabWithOptions[data-active]:hover {
-    /* background-color: var(--mantine-color-primary-0); */
-}
+/* .tabWithOptions[data-active]:hover {
+    background-color: var(--mantine-color-primary-0);
+} */
 
 .tabWithOptions[data-active] .chevron {
     color: var(--mantine-color-primary-6);

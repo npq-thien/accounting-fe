@@ -80,6 +80,7 @@ export function CommonAgGridTable<T = any>(props: CommonAgGridTableProps<T>) {
 
         return themeQuartz.withParams({
             spacing: 12,
+            cellHorizontalPadding: 16,
             ...(colorScheme === "dark" ? darkMode : lightMode),
         });
     }, [colorScheme]);
@@ -136,6 +137,8 @@ export function CommonAgGridTable<T = any>(props: CommonAgGridTableProps<T>) {
                     filter: true,
                     resizable: true,
                     enableCellChangeFlash: true,
+                    wrapHeaderText: true,
+                    autoHeaderHeight: true,
 
                     cellClassRules: {
                         "ag-cell-invalid": (params) => {

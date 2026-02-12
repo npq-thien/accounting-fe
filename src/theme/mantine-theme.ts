@@ -73,6 +73,7 @@ export const theme: MantineThemeOverride = {
 
     defaultRadius: "sm",
 
+    // TODO: can define more styles here for components which is not CommonComponent
     components: {
         Button: {
             defaultProps: {
@@ -82,6 +83,13 @@ export const theme: MantineThemeOverride = {
         TextInput: {
             defaultProps: {
                 radius: "sm",
+            },
+        },
+        Drawer: {
+            styles: {
+                body: {
+                    paddingBottom: "0",
+                }
             },
         },
         // TextInput: {
